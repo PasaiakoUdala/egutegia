@@ -109,4 +109,8 @@ class UserRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function searchTaldeak()
+    {
+    }
 }

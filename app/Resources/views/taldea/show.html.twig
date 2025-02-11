@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block head_style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/select2.min.css') }}">
+    <style>
+        .select2-close-mask{
+            z-index: 2099;
+        }
+        .select2-dropdown{
+            z-index: 3051;
+        }
+    </style>
+{% endblock %}
+{% block headline %}{{ taldea.izena }}-ko taldeko kideak {% endblock %}
+
+
+{% block content_row %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Gehitu erabiltzailea</h4>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('AppBundle:Taldea:edit', {'id': taldea.id})) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Utzi</button>
+                    <button type="button" class="btn btn-primary" id="btnNewZerrendaUser">Sortu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toolbar">
+        <button id="btnBerria" class="btn btn-default">Gehitu langilea</button>
+        <a href="{{ path('admin_taldea_index') }}" class="btn btn-default">Itzuli zerrendara</a>
+    </div>
+    <div>&nbsp;</div>
+
+    <table class="table table-condensed table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Langilea</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in taldea.users %}
+            <tr>
+                <td>{{ u.displayname }}</td>
+
+                <td>
+                    <a class="btn btn-default" href="{{ path('admin_taldea_remove_user', {'id': taldea.id, 'userid': u.id}) }}">
+                        <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+{% block foot_script %}
+    {{ parent() }}
+
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+    <script src="{{ asset('js/eu.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('#appbundle_taldea_users').select2({width: '80%'});
+            $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+
+            $("#btnBerria").on("click", function () {
+                $("#myModal").modal();
+            });
+
+            $("#btnNewZerrendaUser").on("click", function () {
+                var u = $("#appbundle_taldea_users").val();
+                if ( u.length > 0 )
+                    $("#frmTaldeaAddUser").submit();
+                else
+                    bootbox.alert("Langile bat aukeratu behar duzu.");
+            });
+
+            $(".btnRemoveRow").on("click", function () {
+                var that = $(this);
+                bootbox.confirm({
+                    title: "{{ 'Adi!' | trans }}",
+                    message: "{{ 'Ziur zaude ezabatu nahi duzula?' | trans }}",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> {{ 'Ezeztatu' | trans }}'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> {{ 'Onartu' | trans }}'
+                        }
+                    },
+                    callback: function ( result ) {
+                        if ( result === true ) {
+                            $(that).closest("form").submit();
+                        }
+                    }
+                });
+            });
+
+        });
+
+    </script>
+{% endblock %}

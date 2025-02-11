@@ -37,6 +37,24 @@ class KuadranteaEskaerekinRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findallTaldea($taldeaid) {
+        $qb = $this->createQueryBuilder('k')
+            ->select('k')
+            ->join('k.user', 'u')
+            ->orderBy('u.lanpostua', 'ASC')
+        ;
+
+        if (is_array($taldeaid)) {
+            $qb->where($qb->expr()->in('u.taldea', ':taldeaid'))
+                ->setParameter('taldeaid', $taldeaid);
+        } else {
+            $qb->where('u.taldea = :taldeaid')
+                ->setParameter('taldeaid', $taldeaid);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findallSaila($sailaid) {
         $qb = $this->createQueryBuilder('k')
             ->select('k')
@@ -65,22 +83,6 @@ class KuadranteaEskaerekinRepository extends \Doctrine\ORM\EntityRepository
         }
 
         return $qb->getQuery()->getResult();
-//        $qb = $this->createQueryBuilder('k')
-//            ->select('k')
-//            ->join('k.user', 'u')
-//            ->andWhere('u.saila=:sailaid')->setParameter('sailaid', $sailaid)
-//            ->orderBy('u.lanpostua', 'ASC')
-//        ;
-//
-//        // 2024-07-08 Erikak eskatu du berak kuadrantean ikusi ahal izatea cuevas-en eskaerak
-//        if ($sailaid  == "3") {
-//            $qb->orWhere(
-//                'u.username= :username'
-//            )->setParameter('username', 'acuevas'
-//            );
-//        }
-//
-//        return $qb->getQuery()->getResult();
     }
 
     public function findallSorted()

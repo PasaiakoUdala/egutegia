@@ -10,6 +10,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use FR3D\LdapBundle\Model\LdapUserInterface;
@@ -123,15 +124,15 @@ class User extends BaseUser implements LdapUserInterface
     /*****************************************************************************************************************/
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Saila", inversedBy="zinegotziak")
-     * @ORM\JoinTable(name="zinegotzi_saila",
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Taldea", inversedBy="zinegotziak")
+     * @ORM\JoinTable(name="zinegotzi_taldea",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="saila_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="taldea_id", referencedColumnName="id")}
      * )
      */
-    private $zinegotziSailak;
+    private $zinegotziTaldeak;
 
     /**
      * @var calendars[]
@@ -172,9 +173,18 @@ class User extends BaseUser implements LdapUserInterface
      * @var \AppBundle\Entity\Saila
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Saila", inversedBy="users")
-     * @ORM\JoinColumn(name="saila_id", referencedColumnName="id",onDelete="CASCADE")
+     * @ORM\JoinColumn(name="saila_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
      */
     private $saila;
+
+    /**
+     * @var \AppBundle\Entity\Taldea
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Taldea", inversedBy="users")
+     * @ORM\JoinColumn(name="taldea_id", referencedColumnName="id", onDelete="SET NULL", nullable=true)
+     */
+    private $taldea;
+
 
     /**
      * Constructor.
@@ -277,7 +287,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Get calendars.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCalendars()
     {
@@ -431,7 +441,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Get notifications
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getNotifications()
     {
@@ -465,7 +475,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Get eskaera
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getEskaera()
     {
@@ -499,7 +509,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Get firmadet
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getFirmadet()
     {
@@ -608,7 +618,7 @@ class User extends BaseUser implements LdapUserInterface
     /**
      * Get messages.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getMessages()
     {
@@ -712,7 +722,7 @@ class User extends BaseUser implements LdapUserInterface
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getZinegotziSailak()
     {
@@ -745,5 +755,91 @@ class User extends BaseUser implements LdapUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Add zinegotziSailak.
+     *
+     * @param \AppBundle\Entity\Saila $zinegotziSailak
+     *
+     * @return User
+     */
+    public function addZinegotziSailak(\AppBundle\Entity\Saila $zinegotziSailak)
+    {
+        $this->zinegotziSailak[] = $zinegotziSailak;
+
+        return $this;
+    }
+
+    /**
+     * Remove zinegotziSailak.
+     *
+     * @param \AppBundle\Entity\Saila $zinegotziSailak
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeZinegotziSailak(\AppBundle\Entity\Saila $zinegotziSailak)
+    {
+        return $this->zinegotziSailak->removeElement($zinegotziSailak);
+    }
+
+    /**
+     * Set taldea.
+     *
+     * @param \AppBundle\Entity\Taldea|null $taldea
+     *
+     * @return User
+     */
+    public function setTaldea(\AppBundle\Entity\Taldea $taldea = null)
+    {
+        $this->taldea = $taldea;
+
+        return $this;
+    }
+
+    /**
+     * Get taldea.
+     *
+     * @return \AppBundle\Entity\Taldea|null
+     */
+    public function getTaldea()
+    {
+        return $this->taldea;
+    }
+
+    /**
+     * Add zinegotziTaldeak.
+     *
+     * @param \AppBundle\Entity\Saila $zinegotziTaldeak
+     *
+     * @return User
+     */
+    public function addZinegotziTaldeak(\AppBundle\Entity\Taldea $zinegotziTaldeak)
+    {
+        $this->zinegotziTaldeak[] = $zinegotziTaldeak;
+
+        return $this;
+    }
+
+    /**
+     * Remove zinegotziTaldeak.
+     *
+     * @param \AppBundle\Entity\Taldea $zinegotziTaldeak
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeZinegotziTaldeak(\AppBundle\Entity\Taldea $zinegotziTaldeak)
+    {
+        return $this->zinegotziTaldeak->removeElement($zinegotziTaldeak);
+    }
+
+    /**
+     * Get zinegotziTaldeak.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getZinegotziTaldeak()
+    {
+        return $this->zinegotziTaldeak;
     }
 }

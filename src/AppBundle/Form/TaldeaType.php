@@ -7,7 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SailaType extends AbstractType
+class TaldeaType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -16,7 +16,7 @@ class SailaType extends AbstractType
     {
         $builder
             ->add('izena', TextType::class, [
-                'label' => 'Sailaren izena',
+                'label' => 'Taldearen izena',
             ])
             ->add('users');
     }/**
@@ -25,7 +25,7 @@ class SailaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Saila'
+            'data_class' => 'AppBundle\Entity\Taldea'
         ));
     }
 
@@ -34,7 +34,7 @@ class SailaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_saila';
+        return 'appbundle_taldea';
     }
 
 

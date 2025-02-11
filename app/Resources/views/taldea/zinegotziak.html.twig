@@ -3,21 +3,21 @@
 {% block head_style %}
     {{ parent() }}
 {% endblock %}
-{% block headline %}{{ 'Zinegotziak - Sailak' }} {% endblock %}
+{% block headline %}{{ 'Zinegotziak - Taldeak' }} {% endblock %}
 
 {% block content_row %}
     <div class="row">
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Zinegotziak eta beraien sailak</h3>
+                    <h3 class="box-title">Zinegotziak eta beraien taldeak</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-hover">
                         <thead>
                         <tr>
                             <th>Zinegotzia</th>
-                            <th>Sailak</th>
+                            <th>Taldeak</th>
                             <th>Ekintzak</th>
                         </tr>
                         </thead>
@@ -25,16 +25,16 @@
                         {% for zinegotzia in zinegotziak %}
                             <tr data-user-id="{{ zinegotzia.id }}">
                                 <td>{{ zinegotzia.displayname ?? zinegotzia.username }}</td>
-                                <td class="saila-labels">
-                                    <div id="sailak-{{ zinegotzia.id }}"></div>
+                                <td class="taldea-labels">
+                                    <div id="taldeak-{{ zinegotzia.id }}"></div>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#sailakModal{{ zinegotzia.id }}">
-                                        Sailak kudeatu
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#taldeakModal{{ zinegotzia.id }}">
+                                        Taldeak kudeatu
                                     </button>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="sailakModal{{ zinegotzia.id }}" tabindex="-1" role="dialog">
+                                    <div class="modal fade" id="taldeakModal{{ zinegotzia.id }}" tabindex="-1" role="dialog">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -43,16 +43,16 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="form-group">
-                                                        {% for saila in sailak %}
+                                                        {% for taldea in taldeak %}
                                                             <div class="checkbox">
                                                                 <label>
                                                                     <input type="checkbox"
-                                                                           class="saila-checkbox"
+                                                                           class="taldea-checkbox"
                                                                            data-user-id="{{ zinegotzia.id }}"
-                                                                           data-saila-id="{{ saila.id }}"
-                                                                           {% if saila in zinegotzia.zinegotziSailak %}checked{% endif %}
+                                                                           data-taldea-id="{{ taldea.id }}"
+                                                                           {% if taldea in zinegotzia.zinegotziTaldeak %}checked{% endif %}
                                                                     >
-                                                                    {{ saila.izena }}
+                                                                    {{ taldea.izena }}
                                                                 </label>
                                                             </div>
                                                         {% endfor %}
@@ -79,37 +79,37 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
-            // Initialize sailak labels
+            // Initialize taldeak labels
             {% for zinegotzia in zinegotziak %}
-                var sailakContainer = $('#sailak-{{ zinegotzia.id }}');
-                {% for saila in zinegotzia.zinegotziSailak %}
-                    sailakContainer.append('<span class="label label-primary saila-{{ saila.id }}">{{ saila.izena }}</span> ');
+                var taldeakContainer = $('#taldeak-{{ zinegotzia.id }}');
+                {% for taldea in zinegotzia.zinegotziTaldeak %}
+                    taldeakContainer.append('<span class="label label-primary taldea-{{ taldea.id }}">{{ taldea.izena }}</span> ');
                 {% endfor %}
             {% endfor %}
 
-            $('.saila-checkbox').change(function() {
+            $('.taldea-checkbox').change(function() {
                 var userId = $(this).data('user-id');
-                var sailaId = $(this).data('saila-id');
+                var taldeaId = $(this).data('taldea-id');
                 var isChecked = $(this).is(':checked');
                 var checkbox = $(this);
-                var sailaText = checkbox.closest('label').text().trim();
-                var sailakContainer = $('#sailak-' + userId);
+                var taldeaText = checkbox.closest('label').text().trim();
+                var taldeakContainer = $('#taldeak-' + userId);
 
                 $.ajax({
-                    url: '{{ path('admin_zinegotzi_saila_assign') }}',
+                    url: '{{ path('admin_zinegotzi_taldea_assign') }}',
                     method: 'POST',
                     data: {
                         userId: userId,
-                        sailaId: sailaId,
+                        taldeaId: taldeaId,
                         isChecked: isChecked
                     },
                     success: function(response) {
                         if (response.success) {
-                            // Actualizar solo los labels de los sailak
+                            // Actualizar solo los labels de los taldeak
                             if (isChecked) {
-                                sailakContainer.append('<span class="label label-primary saila-' + sailaId + '">' + sailaText + '</span> ');
+                                taldeakContainer.append('<span class="label label-primary taldea-' + taldeaId + '">' + taldeaText + '</span> ');
                             } else {
-                                sailakContainer.find('.saila-' + sailaId).remove();
+                                taldeakContainer.find('.taldea-' + taldeaId).remove();
                             }
                         } else {
                             alert('Error al actualizar la asignación');

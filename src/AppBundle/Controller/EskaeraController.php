@@ -53,24 +53,24 @@ class EskaeraController extends Controller {
     {
         /** @var EntityManager $em */
         $em = $this->getDoctrine()->getManager();
-        $sailak = $em->getRepository('AppBundle:Saila')->findAll();
-        $sailaIds = $request->query->get('saila');
+        $sailak = $em->getRepository('AppBundle:Taldea')->findAll();
+        $taldeaIds = $request->query->get('saila');
 
-        if ($sailaIds) {
+        if ($taldeaIds) {
             // Ensure we have an array of individual values
-            if (!is_array($sailaIds)) {
+            if (!is_array($taldeaIds)) {
                 // If it's a comma-separated string, split it
-                if (strpos($sailaIds, ',') !== false) {
-                    $sailaIds = array_map('trim', explode(',', $sailaIds));
+                if (strpos($taldeaIds, ',') !== false) {
+                    $taldeaIds = array_map('trim', explode(',', $taldeaIds));
                 } else {
-                    $sailaIds = [$sailaIds];
+                    $taldeaIds = [$taldeaIds];
                 }
             }
 
             // Get all results for all sailak at once
-            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSaila($sailaIds);
-        } else {
-            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSorted();
+            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallTaldea($taldeaIds);
+//        } else {
+//            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSorted();
         }
 
         $year = date('Y');
@@ -83,7 +83,7 @@ class EskaeraController extends Controller {
         }
 
         return $this->render('default/kuadrantea.html.twig', [
-            'results' => $results,
+            'results' => $results ?? null,
             'year' => $year,
             'sailak' => $sailak
         ]);

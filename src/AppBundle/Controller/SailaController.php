@@ -43,22 +43,7 @@ class SailaController extends Controller
         ));
     }
 
-    /**
-     * @Route("/zinegotziak", name="admin_saila_zinegotziak")
-     * @Method("GET")
-     */
-    public function zinegotziakAction()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $sailak = $em->getRepository('AppBundle:Saila')->findAll();
-        $zinegotziak = $em->getRepository('AppBundle:User')->findBy(['department' => 'Zinegotzia']);
-
-        return $this->render('saila/zinegotziak.html.twig', array(
-            'sailak' => $sailak,
-            'zinegotziak' => $zinegotziak,
-        ));
-    }
 
     /**
      * Creates a new saila entity.
@@ -99,17 +84,9 @@ class SailaController extends Controller
     {
         $deleteForm = $this->createDeleteForm($saila);
 
-        $deleteForms = [];
-        /** @var User $users */
-        $users = $saila->getUsers();
-//        foreach ($users as $user) {
-//
-//            $deleteForms[$g->getId()] = $this->createRemoveUserForm($user)->createView();
-//        }
         return $this->render('saila/show.html.twig', array(
             'saila' => $saila,
             'delete_form' => $deleteForm->createView(),
-//            'deleteForms' => $deleteForms,
         ));
     }
 
@@ -200,38 +177,5 @@ class SailaController extends Controller
         }
 
         return $this->redirectToRoute('admin_saila_show', ['id' => $saila->getId()]);
-    }
-
-    /**
-     * @Route("/zinegotzi/saila/assign", name="admin_zinegotzi_saila_assign")
-     * @Method("POST")
-     */
-    public function assignSailaAction(Request $request)
-    {
-        if (!$request->isXmlHttpRequest()) {
-            return new JsonResponse(['error' => 'Only AJAX calls are allowed'], 400);
-        }
-
-        $userId = $request->request->get('userId');
-        $sailaId = $request->request->get('sailaId');
-        $isChecked = $request->request->get('isChecked') === 'true';
-
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->find($userId);
-        $saila = $em->getRepository('AppBundle:Saila')->find($sailaId);
-
-        if (!$user || !$saila) {
-            return new JsonResponse(['error' => 'User or Saila not found'], 404);
-        }
-
-        if ($isChecked) {
-            $user->addZinegotziSaila($saila);
-        } else {
-            $user->removeZinegotziSaila($saila);
-        }
-
-        $em->flush();
-
-        return new JsonResponse(['success' => true]);
     }
 }

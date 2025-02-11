@@ -3,7 +3,7 @@
 {% block head_style %}
     {{ parent() }}
 {% endblock %}
-{% block headline %}{{ 'Sailen zerrenda' | trans }} {% endblock %}
+{% block headline %}{{ 'Taldeen zerrenda' | trans }} {% endblock %}
 
 
 {% block content_row %}
@@ -14,10 +14,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Sail berria</h4>
+                    <h4 class="modal-title" id="myModalLabel">Talde berria</h4>
                 </div>
                 <div class="modal-body">
-                    {{ render(controller('AppBundle:Saila:new')) }}
+                    {{ render(controller('AppBundle:Taldea:new')) }}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Utzi</button>
@@ -28,7 +28,8 @@
     </div>
 
     <div id="toolbar">
-        <button id="btnBerria" class="btn btn-default">Sail berria</button>
+        <button id="btnBerria" class="btn btn-default">Talde berria</button>
+        <small>Taldeak (Azpisailak) zinegotziei esleitzeko erabiliko dugu. Zinegotziek zein taldeko langileak ikus ditzakeen ezarri ahalko da.</small>
     </div>
 
     <table data-toggle="table"
@@ -71,31 +72,27 @@
         </tr>
         </thead>
         <tbody>
-        {% for saila in sailak %}
+        {% for taldea in taldeas %}
             <tr>
-                <td><a href="{{ path('admin_saila_show', { 'id': saila.id }) }}">{{ saila.izena }}</a></td>
+                <td><a href="{{ path('admin_taldea_show', { 'id': taldea.id }) }}">{{ taldea.izena }}</a></td>
                 <td>
-                    {% for d in saila.users %}
+                    {% for d in taldea.users %}
                         <span class="label label-default">{{ d.displayname }}</span>&nbsp;
                     {% endfor %}
                 </td>
                 <td>
                     <ul class="list-inline">
                         <li>
-                            <a href="{{ path('admin_saila_show', { 'id': saila.id }) }}"><i class="fa fa-eye" aria-hidden="true"></i>
+                            <a href="{{ path('admin_taldea_show', { 'id': taldea.id }) }}"><i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
                         </li>
-{#                        <li>#}
-{#                            <a href="{{ path('admin_saila_edit', { 'id': saila.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i>#}
-{#                            </a>#}
-{#                        </li>#}
                         <li>
-                            {{ form_start(deleteForms[saila.id],{'attr': {'id': saila.id}}) }}
-                            <a class="btnRemoveRow" data-id="{{ saila.id }}"
-                               href="#sailaEditModal{{ saila.id }}">
+                            {{ form_start(deleteForms[taldea.id],{'attr': {'id': taldea.id}}) }}
+                            <a class="btnRemoveRow" data-id="{{ taldea.id }}"
+                               href="#taldeaEditModal{{ taldea.id }}">
                                 <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                             </a>
-                            {{ form_end(deleteForms[saila.id]) }}
+                            {{ form_end(deleteForms[taldea.id]) }}
                         </li>
                     </ul>
                 </td>
@@ -116,8 +113,8 @@
             });
 
             $("#btnNewZerrenda").on("click", function () {
-                if ( $("#appbundle_saila_izena").val().length > 0 ) {
-                    $("#frmNewSaila").submit();
+                if ( $("#appbundle_taldea_izena").val().length > 0 ) {
+                    $("#frmNewTaldea").submit();
                 } else {
                     bootbox.alert("Izena ezartzea beharrezkoa da");
                 }

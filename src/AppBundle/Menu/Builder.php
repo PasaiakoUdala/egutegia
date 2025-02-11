@@ -37,8 +37,9 @@ class Builder implements ContainerAwareInterface
             $menu[ 'Taula Laguntzaileak' ]->addChild('divider', ['divider' => true]);
             $menu[ 'Taula Laguntzaileak' ]->addChild('Bateraezinak', ['icon' => 'lock', 'route' => 'admin_gutxienekoak_index'])->setExtra('translation_domain', 'messages');
             $menu[ 'Taula Laguntzaileak' ]->addChild('Sinatzaileak', ['icon' => 'pencil', 'route' => 'admin_sinatzaileak_index'])->setExtra('translation_domain', 'messages');
-            $menu[ 'Taula Laguntzaileak' ]->addChild('Sailak', ['icon' => '', 'route' => 'admin_saila_index'])->setExtra('translation_domain', 'messages');
-            $menu[ 'Taula Laguntzaileak' ]->addChild('Zinegotziak', ['icon' => '', 'route' => 'admin_saila_zinegotziak'])->setExtra('translation_domain', 'messages');
+            $menu[ 'Taula Laguntzaileak' ]->addChild('Sailak', ['icon' => 'tasks', 'route' => 'admin_saila_index'])->setExtra('translation_domain', 'messages');
+            $menu[ 'Taula Laguntzaileak' ]->addChild('Taldeak (Azpisailak)', ['icon' => 'indent-left', 'route' => 'admin_taldea_index'])->setExtra('translation_domain', 'messages');
+            $menu[ 'Taula Laguntzaileak' ]->addChild('Zinegotziak', ['icon' => 'king', 'route' => 'admin_taldea_zinegotziak'])->setExtra('translation_domain', 'messages');
             $menu[ 'Taula Laguntzaileak' ]->addChild('divider2', ['divider' => true]);
             $menu[ 'Taula Laguntzaileak' ]->addChild('Azken konexioak', ['icon' => 'time', 'route' => 'admin_log_index'])->setExtra('translation_domain', 'messages');
             $menu[ 'Taula Laguntzaileak' ]->addChild('divider3', ['divider' => true]);
@@ -201,21 +202,23 @@ class Builder implements ContainerAwareInterface
 
                 /** @var $user User */
                 $user = $this->container->get('security.token_storage')->getToken()->getUser();
-                $sailaIds = [];
-                foreach ($user->getZinegotziSailak() as $saila) {
-                    $sailaIds[] = $saila->getId();
+                $taildeaIds = [];
+                foreach ($user->getZinegotziTaldeak() as $taldea) {
+                    $taildeaIds[] = $taldea->getId();
                 }
-                $menu['User']->addChild(
-                    'kuadrantea',
-                    array(
-                        'label'  => $this->container->get('translator')->trans('Saileko kuadrantea'),
-                        'route'  => 'admin_kuadrantea_eskaerekin',
-                        'routeParameters' => ['saila' => implode(',', $sailaIds)],
-                        'icon'   => 'calendar',
-                        'extras' => array('safe_label' => true),
-                    )
-                )->setExtra('translation_domain', 'messages');
-                $menu['User']->addChild('divider6', ['divider' => true]);
+                if (count($taildeaIds) > 0) {
+                    $menu['User']->addChild(
+                        'kuadrantea',
+                        array(
+                            'label'  => $this->container->get('translator')->trans('Saileko kuadrantea ikusi'),
+                            'route'  => 'admin_kuadrantea_eskaerekin',
+                            'routeParameters' => ['saila' => implode(',', $taildeaIds)],
+                            'icon'   => 'calendar',
+                            'extras' => array('safe_label' => true),
+                        )
+                    )->setExtra('translation_domain', 'messages');
+                    $menu['User']->addChild('divider6', ['divider' => true]);
+                }
             }
 
             if ($checker->isGranted('ROLE_SAILBURUA') || $checker->isGranted('ROLE_SUPER_ADMIN') || $checker->isGranted('ROLE_ARDURADUNA')) {

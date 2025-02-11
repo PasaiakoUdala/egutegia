@@ -2,15 +2,17 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Saila
+ * Taldea
  *
- * @ORM\Table(name="saila")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\SailaRepository")
+ * @ORM\Table(name="taldea")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TaldeaRepository")
  */
-class Saila
+class Taldea
 {
     /**
      * @var int
@@ -42,16 +44,16 @@ class Saila
     /*****************************************************************************************************************/
 
     /**
-     * @var \AppBundle\Entity\User
+     * @var User
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="saila")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="taldea")
      */
     private $users;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="zinegotziSailak")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="zinegotziTaldeak")
      */
     private $zinegotziak;
 
@@ -64,8 +66,8 @@ class Saila
      */
     public function __construct()
     {
-        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->zinegotziak = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->zinegotziak = new ArrayCollection();
     }
 
     /**
@@ -83,7 +85,7 @@ class Saila
      *
      * @param string $izena
      *
-     * @return Saila
+     * @return Taldea
      */
     public function setIzena($izena)
     {
@@ -102,15 +104,14 @@ class Saila
         return $this->izena;
     }
 
-
     /**
      * Add user.
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
-     * @return Saila
+     * @return Taldea
      */
-    public function addUser(\AppBundle\Entity\User $user)
+    public function addUser(User $user)
     {
         $this->users[] = $user;
 
@@ -120,11 +121,11 @@ class Saila
     /**
      * Remove user.
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeUser(\AppBundle\Entity\User $user)
+    public function removeUser(User $user)
     {
         return $this->users->removeElement($user);
     }
@@ -132,7 +133,7 @@ class Saila
     /**
      * Get users.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getUsers()
     {
@@ -140,51 +141,13 @@ class Saila
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getZinegotziak()
-    {
-        return $this->zinegotziak;
-    }
-
-    /**
-     * @param User $zinegotzia
-     *
-     * @return self
-     */
-    public function addZinegotzia(User $zinegotzia)
-    {
-        if (!$this->zinegotziak->contains($zinegotzia)) {
-            $this->zinegotziak[] = $zinegotzia;
-            $zinegotzia->addZinegotziSaila($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param User $zinegotzia
-     *
-     * @return self
-     */
-    public function removeZinegotzia(User $zinegotzia)
-    {
-        if ($this->zinegotziak->contains($zinegotzia)) {
-            $this->zinegotziak->removeElement($zinegotzia);
-            $zinegotzia->removeZinegotziSaila($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * Add zinegotziak.
      *
-     * @param \AppBundle\Entity\User $zinegotziak
+     * @param User $zinegotziak
      *
-     * @return Saila
+     * @return Taldea
      */
-    public function addZinegotziak(\AppBundle\Entity\User $zinegotziak)
+    public function addZinegotziak(User $zinegotziak)
     {
         $this->zinegotziak[] = $zinegotziak;
 
@@ -194,12 +157,22 @@ class Saila
     /**
      * Remove zinegotziak.
      *
-     * @param \AppBundle\Entity\User $zinegotziak
+     * @param User $zinegotziak
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeZinegotziak(\AppBundle\Entity\User $zinegotziak)
+    public function removeZinegotziak(User $zinegotziak)
     {
         return $this->zinegotziak->removeElement($zinegotziak);
+    }
+
+    /**
+     * Get zinegotziak.
+     *
+     * @return Collection
+     */
+    public function getZinegotziak()
+    {
+        return $this->zinegotziak;
     }
 }

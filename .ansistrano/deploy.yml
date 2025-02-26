@@ -41,7 +41,7 @@
     ansistrano_deploy_to: "{{ deploy_path }}"
     ansistrano_deploy_via: "git"
 
-    shared_path_parameters: "{{ symfony_app_dir }}/config/parameters.yml"
+    #shared_path_parameters: "{{ symfony_app_dir }}/config/parameters.yml"
 
     ansistrano_shared_paths:
       - var

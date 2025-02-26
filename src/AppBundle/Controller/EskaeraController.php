@@ -398,7 +398,7 @@ class EskaeraController extends Controller {
         $formType = null;
         if ($q === (string) $this->getParameter('type_ikastaroa')) {
             $formType = EskaeraIkastaroaType::class;
-        } elseif ($q === (string) $this->getParameter('type_azteketa')) {
+        } elseif ($q === (string) $this->getParameter('type_azterketa')) {
             $formType = EskaeraAzterketaType::class;
         } else {
             $formType = EskaeraType::class;
@@ -510,7 +510,7 @@ class EskaeraController extends Controller {
             $template = 'eskaera/munipa.html.twig';
         } elseif ($q === (string) $this->getParameter('type_ikastaroa')) {
             $template = 'eskaera/newIkastaro.html.twig';
-        } elseif  ($q === (string) $this->getParameter('type_azteketa')) {
+        } elseif  ($q === (string) $this->getParameter('type_azterketa')) {
             $template = 'eskaera/newAzterketa.html.twig';
         }
 

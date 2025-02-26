@@ -59,6 +59,7 @@ twig:
         type_norbere: '%type_norbere%'
         type_lizentzia: '%type_lizentzia%'
         type_ikastaroa: '%type_ikastaroa%'
+        type_azterketa: '%type_azterketa%'
     form_themes:
         # Bootstrap:
 #        - bootstrap_3_layout.html.twig

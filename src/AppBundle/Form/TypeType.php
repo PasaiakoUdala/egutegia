@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -65,12 +66,21 @@ class TypeType extends AbstractType
                 'label' => 'Erakutsi eskaeretan',
                 'translation_domain' => 'messages',
             ])
+            ->add('erakutsiOrdua', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Eskaeretan Ordua botoia erakutsi Bai/ez',
+                'translation_domain' => 'messages',
+            ])
+            ->add('erakutsiEguna', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Eskaeretan Eguna botoia erakutsi Bai/ez',
+                'translation_domain' => 'messages',
+            ])
             ->add('lizentziamotabehar', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Lizentzia Motak',
                 'translation_domain' => 'messages',
             ])
-
         ;
     }
 

@@ -36,6 +36,10 @@ class LizentziamotaType extends AbstractType
                     'label' => 'Kostua zehaztu behar da?',
                 )
             )
+            ->add('gaitu', CheckboxType::class, [
+                'label' => 'Lizentzia bat egiterakoan erakutsi Bai / Ez',
+                'required' => false
+            ])
         ;
     }
 

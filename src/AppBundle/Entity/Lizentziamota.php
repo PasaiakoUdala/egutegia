@@ -48,6 +48,13 @@ class Lizentziamota
      */
     private $kostuabehar;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="gaitu", type="boolean", nullable=true)
+     */
+    private $gaitu;
+
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -83,6 +90,7 @@ class Lizentziamota
     public function __construct()
     {
         $this->eskaerak = new ArrayCollection();
+        $this->gaitu = true;
     }
 
 
@@ -254,5 +262,29 @@ class Lizentziamota
     public function getKostuabehar()
     {
         return $this->kostuabehar;
+    }
+
+    /**
+     * Set gaitu.
+     *
+     * @param bool|null $gaitu
+     *
+     * @return Lizentziamota
+     */
+    public function setGaitu($gaitu = null)
+    {
+        $this->gaitu = $gaitu;
+
+        return $this;
+    }
+
+    /**
+     * Get gaitu.
+     *
+     * @return bool|null
+     */
+    public function getGaitu()
+    {
+        return $this->gaitu;
     }
 }

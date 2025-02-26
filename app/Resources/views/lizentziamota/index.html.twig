@@ -48,6 +48,7 @@
         <th data-halign="center" data-align="left" data-field="name" data-sortable="true">{{ 'Mota' | trans }}</th>
         <th data-halign="center" data-align="center" data-field="sinatubehar"  data-sortable="true">{{ 'Sinatu behar da?' | trans }}</th>
         <th data-halign="center" data-align="center" data-field="kostuabehar"  data-sortable="true">{{ 'Kostua zehaztu behar da?' | trans }}</th>
+        <th data-halign="center" data-align="center" data-field="gaitu"  data-sortable="true">{{ 'Lizentzia mota zerrendan erakutsi?' | trans }}</th>
         <th data-halign="center" data-align="center"></th>
     </tr>
     </thead>
@@ -64,6 +65,13 @@
                 </td>
                 <td>
                     {% if lizentziamotum.kostuabehar %}
+                        <label class="label label-success">{{ "Bai" | trans }}</label>
+                    {% else %}
+                        <label class="label label-danger">{{ "Ez" | trans }}</label>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if lizentziamotum.gaitu %}
                         <label class="label label-success">{{ "Bai" | trans }}</label>
                     {% else %}
                         <label class="label label-danger">{{ "Ez" | trans }}</label>

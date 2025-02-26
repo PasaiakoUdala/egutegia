@@ -283,7 +283,6 @@ class Eskaera
      */
     private $ordainketaSize;
 
-
     /**
      * @var bool
      * @ORM\Column(name="ordaindubeharda", type="boolean", nullable=true, options={"default"=false})
@@ -307,6 +306,34 @@ class Eskaera
      * @ORM\Column(name="ikastaroaAmaituta", type="boolean", nullable=true, options={"default"=false})
      */
     private $ikastaroaAmaituta=false;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="erakundea", type="string", length=255)
+     */
+    private $erakundea;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="aurreikusitako_ordua", type="string", length=255, nullable=true)
+     */
+    private $aurreikusitakoOrdua;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="aurreikusitako_iraupena", type="string", length=255, nullable=true)
+     */
+    private $aurreikusitakoIraupena;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="non", type="string", length=255, nullable=true)
+     */
+    private $non;
 
     /*****************************************************************************************************************/
     /*** ERLAZIOAK ***************************************************************************************************/
@@ -1466,5 +1493,101 @@ class Eskaera
     public function getIkastaroaAmaituta()
     {
         return $this->ikastaroaAmaituta;
+    }
+
+    /**
+     * Set erakundea.
+     *
+     * @param string $erakundea
+     *
+     * @return Eskaera
+     */
+    public function setErakundea($erakundea)
+    {
+        $this->erakundea = $erakundea;
+
+        return $this;
+    }
+
+    /**
+     * Get erakundea.
+     *
+     * @return string
+     */
+    public function getErakundea()
+    {
+        return $this->erakundea;
+    }
+
+    /**
+     * Set aurreikusitakoOrdua.
+     *
+     * @param string|null $aurreikusitakoOrdua
+     *
+     * @return Eskaera
+     */
+    public function setAurreikusitakoOrdua($aurreikusitakoOrdua = null)
+    {
+        $this->aurreikusitakoOrdua = $aurreikusitakoOrdua;
+
+        return $this;
+    }
+
+    /**
+     * Get aurreikusitakoOrdua.
+     *
+     * @return string|null
+     */
+    public function getAurreikusitakoOrdua()
+    {
+        return $this->aurreikusitakoOrdua;
+    }
+
+    /**
+     * Set aurreikusitakoIraupena.
+     *
+     * @param string|null $aurreikusitakoIraupena
+     *
+     * @return Eskaera
+     */
+    public function setAurreikusitakoIraupena($aurreikusitakoIraupena = null)
+    {
+        $this->aurreikusitakoIraupena = $aurreikusitakoIraupena;
+
+        return $this;
+    }
+
+    /**
+     * Get aurreikusitakoIraupena.
+     *
+     * @return string|null
+     */
+    public function getAurreikusitakoIraupena()
+    {
+        return $this->aurreikusitakoIraupena;
+    }
+
+    /**
+     * Set non.
+     *
+     * @param string|null $non
+     *
+     * @return Eskaera
+     */
+    public function setNon($non = null)
+    {
+        $this->non = $non;
+
+        return $this;
+    }
+
+    /**
+     * Get non.
+     *
+     * @return string|null
+     */
+    public function getNon()
+    {
+        return $this->non;
     }
 }

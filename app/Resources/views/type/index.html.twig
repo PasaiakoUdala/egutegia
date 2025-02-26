@@ -54,6 +54,8 @@
                     <th data-halign="center" data-align="center" data-field="erakutsiEskaera" data-sortable="true" >{{ 'Eskaeretan' | trans }}</th>
                     <th data-halign="center" data-align="center" data-field="related" data-sortable="true">{{ 'Erlazioa' | trans }}</th>
                     <th data-halign="center" data-align="center" data-field="lizentziamotabehar" data-sortable="true">{{ 'Lizentzia Motak' | trans }}</th>
+                    <th data-halign="center" data-align="center" data-field="erakutsiOrdua" data-sortable="true">{{ 'Erakutsi orduak botoia' | trans }}</th>
+                    <th data-halign="center" data-align="center" data-field="erakutsiEguna" data-sortable="true">{{ 'Erakutsi egunak botoia' | trans }}</th>
                     <th data-halign="center" data-align="center"></th>
                 </tr>
             </thead>
@@ -82,6 +84,20 @@
                     <td>{{ type.related }}</td>
                     <td>
                         {% if type.lizentziamotabehar == true %}
+                            <span class="label label-success">{{ 'Bai'|trans }}</span>
+                        {% else %}
+                            <span class="label label-danger">{{ 'Ez'|trans }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if type.erakutsiOrdua == true %}
+                            <span class="label label-success">{{ 'Bai'|trans }}</span>
+                        {% else %}
+                            <span class="label label-danger">{{ 'Ez'|trans }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if type.erakutsiEguna == true %}
                             <span class="label label-success">{{ 'Bai'|trans }}</span>
                         {% else %}
                             <span class="label label-danger">{{ 'Ez'|trans }}</span>

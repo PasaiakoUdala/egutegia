@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Ikastaroa;
+use AppBundle\Form\EskaeraAzterketaType;
 use AppBundle\Form\EskaeraIkastaroaType;
 use AppBundle\Form\EskaeraIkastaroPdfType;
 use AppBundle\Form\EskaeraOrdainketaPdfType;
@@ -394,7 +395,14 @@ class EskaeraController extends Controller {
         $type = $em->getRepository('AppBundle:Type')->find($q);
         $eskaera->setType($type);
 
-        $formType = ($q === (string) $this->getParameter('type_ikastaroa')) ? EskaeraIkastaroaType::class : EskaeraType::class;
+        $formType = null;
+        if ($q === (string) $this->getParameter('type_ikastaroa')) {
+            $formType = EskaeraIkastaroaType::class;
+        } elseif ($q === (string) $this->getParameter('type_azteketa')) {
+            $formType = EskaeraAzterketaType::class;
+        } else {
+            $formType = EskaeraType::class;
+        }
 
         $form = $this->createForm(
             $formType,
@@ -502,6 +510,8 @@ class EskaeraController extends Controller {
             $template = 'eskaera/munipa.html.twig';
         } elseif ($q === (string) $this->getParameter('type_ikastaroa')) {
             $template = 'eskaera/newIkastaro.html.twig';
+        } elseif  ($q === (string) $this->getParameter('type_azteketa')) {
+            $template = 'eskaera/newAzterketa.html.twig';
         }
 
         return $this->render(

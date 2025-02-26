@@ -111,6 +111,18 @@ class Type
     private $erakutsi_eskaera;
 
     /**
+     * @var bool
+     * @ORM\Column(name="erakutsi_ordua", type="boolean", nullable=true)
+     */
+    private $erakutsi_ordua;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="erakutsi_eguna", type="boolean", nullable=true)
+     */
+    private $erakutsi_eguna;
+
+    /**
      * @var string
      * @ORM\Column(name="related", type="string", nullable=true)
      */
@@ -121,7 +133,6 @@ class Type
      * @ORM\Column(name="lizentziamotabehar", type="boolean", nullable=true)
      */
     private $lizentziamotabehar;
-
 
 
     /*****************************************************************************************************************/
@@ -162,6 +173,8 @@ class Type
         $this->template_events = new ArrayCollection();
         $this->color = '#e01b1b';
         $this->erakutsi = true;
+        $this->erakutsi_ordua = true;
+        $this->erakutsi_eguna = true;
     }
 
     public function __toString()
@@ -175,9 +188,9 @@ class Type
 
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -185,7 +198,7 @@ class Type
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -199,7 +212,7 @@ class Type
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -209,321 +222,27 @@ class Type
     }
 
     /**
-     * Set slug
+     * Set labur.
      *
-     * @param string $slug
+     * @param string $labur
      *
      * @return Type
      */
-    public function setSlug($slug)
+    public function setLabur($labur)
     {
-        $this->slug = $slug;
+        $this->labur = $labur;
 
         return $this;
     }
 
     /**
-     * Get slug
+     * Get labur.
      *
      * @return string
      */
-    public function getSlug()
+    public function getLabur()
     {
-        return $this->slug;
-    }
-
-    /**
-     * Set hours
-     *
-     * @param string $hours
-     *
-     * @return Type
-     */
-    public function setHours($hours)
-    {
-        $this->hours = $hours;
-
-        return $this;
-    }
-
-    /**
-     * Get hours
-     *
-     * @return string
-     */
-    public function getHours()
-    {
-        return $this->hours;
-    }
-
-    /**
-     * Set color
-     *
-     * @param string $color
-     *
-     * @return Type
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Get color
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Type
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set updated
-     *
-     * @param \DateTime $updated
-     *
-     * @return Type
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-
-        return $this;
-    }
-
-    /**
-     * Get updated
-     *
-     * @return \DateTime
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-    /**
-     * Set orden
-     *
-     * @param integer $orden
-     *
-     * @return Type
-     */
-    public function setOrden($orden)
-    {
-        $this->orden = $orden;
-
-        return $this;
-    }
-
-    /**
-     * Get orden
-     *
-     * @return integer
-     */
-    public function getOrden()
-    {
-        return $this->orden;
-    }
-
-    /**
-     * Set erakutsi
-     *
-     * @param boolean $erakutsi
-     *
-     * @return Type
-     */
-    public function setErakutsi($erakutsi)
-    {
-        $this->erakutsi = $erakutsi;
-
-        return $this;
-    }
-
-    /**
-     * Get erakutsi
-     *
-     * @return boolean
-     */
-    public function getErakutsi()
-    {
-        return $this->erakutsi;
-    }
-
-    /**
-     * Set erakutsiEskaera
-     *
-     * @param boolean $erakutsiEskaera
-     *
-     * @return Type
-     */
-    public function setErakutsiEskaera($erakutsiEskaera)
-    {
-        $this->erakutsi_eskaera = $erakutsiEskaera;
-
-        return $this;
-    }
-
-    /**
-     * Get erakutsiEskaera
-     *
-     * @return boolean
-     */
-    public function getErakutsiEskaera()
-    {
-        return $this->erakutsi_eskaera;
-    }
-
-    /**
-     * Set related
-     *
-     * @param string $related
-     *
-     * @return Type
-     */
-    public function setRelated($related)
-    {
-        $this->related = $related;
-
-        return $this;
-    }
-
-    /**
-     * Get related
-     *
-     * @return string
-     */
-    public function getRelated()
-    {
-        return $this->related;
-    }
-
-    /**
-     * Add event
-     *
-     * @param \AppBundle\Entity\Event $event
-     *
-     * @return Type
-     */
-    public function addEvent(\AppBundle\Entity\Event $event)
-    {
-        $this->events[] = $event;
-
-        return $this;
-    }
-
-    /**
-     * Remove event
-     *
-     * @param \AppBundle\Entity\Event $event
-     */
-    public function removeEvent(\AppBundle\Entity\Event $event)
-    {
-        $this->events->removeElement($event);
-    }
-
-    /**
-     * Get events
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEvents()
-    {
-        return $this->events;
-    }
-
-    /**
-     * Add templateEvent
-     *
-     * @param \AppBundle\Entity\TemplateEvent $templateEvent
-     *
-     * @return Type
-     */
-    public function addTemplateEvent(\AppBundle\Entity\TemplateEvent $templateEvent)
-    {
-        $this->template_events[] = $templateEvent;
-
-        return $this;
-    }
-
-    /**
-     * Remove templateEvent
-     *
-     * @param \AppBundle\Entity\TemplateEvent $templateEvent
-     */
-    public function removeTemplateEvent(\AppBundle\Entity\TemplateEvent $templateEvent)
-    {
-        $this->template_events->removeElement($templateEvent);
-    }
-
-    /**
-     * Get templateEvents
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTemplateEvents()
-    {
-        return $this->template_events;
-    }
-
-    /**
-     * Add eskaera
-     *
-     * @param \AppBundle\Entity\Eskaera $eskaera
-     *
-     * @return Type
-     */
-    public function addEskaera(\AppBundle\Entity\Eskaera $eskaera)
-    {
-        $this->eskaera[] = $eskaera;
-
-        return $this;
-    }
-
-    /**
-     * Remove eskaera
-     *
-     * @param \AppBundle\Entity\Eskaera $eskaera
-     */
-    public function removeEskaera(\AppBundle\Entity\Eskaera $eskaera)
-    {
-        $this->eskaera->removeElement($eskaera);
-    }
-
-    /**
-     * Get eskaera
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEskaera()
-    {
-        return $this->eskaera;
+        return $this->labur;
     }
 
     /**
@@ -551,6 +270,270 @@ class Type
     }
 
     /**
+     * Set slug.
+     *
+     * @param string $slug
+     *
+     * @return Type
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set hours.
+     *
+     * @param string $hours
+     *
+     * @return Type
+     */
+    public function setHours($hours)
+    {
+        $this->hours = $hours;
+
+        return $this;
+    }
+
+    /**
+     * Get hours.
+     *
+     * @return string
+     */
+    public function getHours()
+    {
+        return $this->hours;
+    }
+
+    /**
+     * Set color.
+     *
+     * @param string $color
+     *
+     * @return Type
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set created.
+     *
+     * @param \DateTime $created
+     *
+     * @return Type
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created.
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated.
+     *
+     * @param \DateTime $updated
+     *
+     * @return Type
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated.
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Set orden.
+     *
+     * @param int|null $orden
+     *
+     * @return Type
+     */
+    public function setOrden($orden = null)
+    {
+        $this->orden = $orden;
+
+        return $this;
+    }
+
+    /**
+     * Get orden.
+     *
+     * @return int|null
+     */
+    public function getOrden()
+    {
+        return $this->orden;
+    }
+
+    /**
+     * Set erakutsi.
+     *
+     * @param bool|null $erakutsi
+     *
+     * @return Type
+     */
+    public function setErakutsi($erakutsi = null)
+    {
+        $this->erakutsi = $erakutsi;
+
+        return $this;
+    }
+
+    /**
+     * Get erakutsi.
+     *
+     * @return bool|null
+     */
+    public function getErakutsi()
+    {
+        return $this->erakutsi;
+    }
+
+    /**
+     * Set erakutsiEskaera.
+     *
+     * @param bool|null $erakutsiEskaera
+     *
+     * @return Type
+     */
+    public function setErakutsiEskaera($erakutsiEskaera = null)
+    {
+        $this->erakutsi_eskaera = $erakutsiEskaera;
+
+        return $this;
+    }
+
+    /**
+     * Get erakutsiEskaera.
+     *
+     * @return bool|null
+     */
+    public function getErakutsiEskaera()
+    {
+        return $this->erakutsi_eskaera;
+    }
+
+    /**
+     * Set erakutsiOrdua.
+     *
+     * @param bool|null $erakutsiOrdua
+     *
+     * @return Type
+     */
+    public function setErakutsiOrdua($erakutsiOrdua = null)
+    {
+        $this->erakutsi_ordua = $erakutsiOrdua;
+
+        return $this;
+    }
+
+    /**
+     * Get erakutsiOrdua.
+     *
+     * @return bool|null
+     */
+    public function getErakutsiOrdua()
+    {
+        return $this->erakutsi_ordua;
+    }
+
+    /**
+     * Set erakutsiEguna.
+     *
+     * @param bool|null $erakutsiEguna
+     *
+     * @return Type
+     */
+    public function setErakutsiEguna($erakutsiEguna = null)
+    {
+        $this->erakutsi_eguna = $erakutsiEguna;
+
+        return $this;
+    }
+
+    /**
+     * Get erakutsiEguna.
+     *
+     * @return bool|null
+     */
+    public function getErakutsiEguna()
+    {
+        return $this->erakutsi_eguna;
+    }
+
+    /**
+     * Set related.
+     *
+     * @param string|null $related
+     *
+     * @return Type
+     */
+    public function setRelated($related = null)
+    {
+        $this->related = $related;
+
+        return $this;
+    }
+
+    /**
+     * Get related.
+     *
+     * @return string|null
+     */
+    public function getRelated()
+    {
+        return $this->related;
+    }
+
+    /**
      * Set lizentziamotabehar.
      *
      * @param bool|null $lizentziamotabehar
@@ -575,50 +558,110 @@ class Type
     }
 
     /**
-     * Set instantziaegutegianerakutsi.
+     * Add event.
      *
-     * @param bool|null $instantziaegutegianerakutsi
+     * @param \AppBundle\Entity\Event $event
      *
      * @return Type
      */
-    public function setInstantziaegutegianerakutsi($instantziaegutegianerakutsi = null)
+    public function addEvent(\AppBundle\Entity\Event $event)
     {
-        $this->instantziaegutegianerakutsi = $instantziaegutegianerakutsi;
+        $this->events[] = $event;
 
         return $this;
     }
 
     /**
-     * Get instantziaegutegianerakutsi.
+     * Remove event.
      *
-     * @return bool|null
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getInstantziaegutegianerakutsi()
+    public function removeEvent(\AppBundle\Entity\Event $event)
     {
-        return $this->instantziaegutegianerakutsi;
+        return $this->events->removeElement($event);
     }
 
     /**
-     * Set labur.
+     * Get events.
      *
-     * @param string $labur
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * Add templateEvent.
+     *
+     * @param \AppBundle\Entity\TemplateEvent $templateEvent
      *
      * @return Type
      */
-    public function setLabur($labur)
+    public function addTemplateEvent(\AppBundle\Entity\TemplateEvent $templateEvent)
     {
-        $this->labur = $labur;
+        $this->template_events[] = $templateEvent;
 
         return $this;
     }
 
     /**
-     * Get labur.
+     * Remove templateEvent.
      *
-     * @return string
+     * @param \AppBundle\Entity\TemplateEvent $templateEvent
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getLabur()
+    public function removeTemplateEvent(\AppBundle\Entity\TemplateEvent $templateEvent)
     {
-        return $this->labur;
+        return $this->template_events->removeElement($templateEvent);
+    }
+
+    /**
+     * Get templateEvents.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTemplateEvents()
+    {
+        return $this->template_events;
+    }
+
+    /**
+     * Add eskaera.
+     *
+     * @param \AppBundle\Entity\Eskaera $eskaera
+     *
+     * @return Type
+     */
+    public function addEskaera(\AppBundle\Entity\Eskaera $eskaera)
+    {
+        $this->eskaera[] = $eskaera;
+
+        return $this;
+    }
+
+    /**
+     * Remove eskaera.
+     *
+     * @param \AppBundle\Entity\Eskaera $eskaera
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEskaera(\AppBundle\Entity\Eskaera $eskaera)
+    {
+        return $this->eskaera->removeElement($eskaera);
+    }
+
+    /**
+     * Get eskaera.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEskaera()
+    {
+        return $this->eskaera;
     }
 }

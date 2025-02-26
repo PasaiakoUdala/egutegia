@@ -17,9 +17,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use AppBundle\Entity\Sinatzaileak;
 use AppBundle\Entity\Eskaera;
-use AppBundle\Entity\Lizentziamota;
 
-class EskaeraType extends AbstractType
+class EskaeraAzterketaType extends AbstractType
 {
 
     /**
@@ -28,7 +27,6 @@ class EskaeraType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add(
                 'type',
                 EntityType::class,
@@ -61,15 +59,7 @@ class EskaeraType extends AbstractType
                     'html5'  => false,
                 ]
             )
-            ->add(
-                'amaitu',
-                DateType::class,
-                [
-                    'widget' => 'single_text',
-                    'html5'  => false,
-                ]
-            )
-            ->add('egunak')
+
             ->add('orduak')
             ->add(
                 'total',
@@ -123,24 +113,29 @@ class EskaeraType extends AbstractType
                 ]
             )
             ->add(
-                'lizentziamota',
-                EntityType::class,
-                [
-                    'class' => Lizentziamota::class,
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('l')
-                            ->where('l.gaitu = true')
-                            ->orderBy('l.name', 'ASC');
-                    },
-                    'choice_label' => 'name',
-                    'placeholder' => '::Aukeratu::',
-                ]
+                'lizentziamota'
             )
             ->add('kostua', MoneyType::class, [
                 'label' => 'Kostua',
                 'divisor' => 100,
                 'required' => false,
 
+            ])
+            ->add('erakundea', TextType::class, [
+                'required' => true,
+                'label' => 'Zein erakunderako?',
+            ])
+            ->add('non', TextType::class, [
+                'required' => true,
+                'label' => 'Non izango da azteketa? (Herria)',
+            ])
+            ->add('aurreikusitakoOrdua', TextType::class, [
+                'required' => true,
+                'label' => 'Azterketaren aurreikusitako ordua',
+            ])
+            ->add('aurreikusitakoIraupena', TextType::class, [
+                'required' => false,
+                'label' => 'Aterketaren aurreikusitako iraupena',
             ])
         ;
     }

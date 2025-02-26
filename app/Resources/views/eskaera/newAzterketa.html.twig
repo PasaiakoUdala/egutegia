@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block head_style %}
+
+    {{ parent() }}
+    <style>
+        .datepicker table tr td.disabled,
+        .datepicker table tr td.disabled:hover {
+            color: #b90000;
+        }
+        .help-block {
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            color: #ae2424;
+            text-transform: uppercase;
+        }
+    </style>
+
+{% endblock %}
+
+{% block headline %}{{ eskaera.type.name ~ ' ' ~ 'eskaera berria' | trans  | lower }} {% endblock %}
+
+{% block content_row %}
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'id': 'frmEskaeraNew'} }) }}
+
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10">
+                    {{ eskaera.type.description | raw }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="min-date" class="col-sm-4 control-label">{{ 'Zein erakunderako? *' | trans }}</label>
+                <div class="col-sm-7">
+                    {{ form_widget(form.erakundea, { 'attr': {'class': 'form-control cmbFetxaKalc', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="min-date" class="col-sm-4 control-label">{{ 'Noiz da azterketa? *' | trans }}</label>
+                <div class="col-sm-7">
+                    {{ form_widget(form.hasi, { 'attr': {'class': 'form-control cmbFetxaKalc', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="min-date" class="col-sm-4 control-label">{{ 'Azterketaren ordua *' | trans }}</label>
+                <div class="col-sm-7 col-md-1">
+                    {{ form_widget(form.aurreikusitakoOrdua, { 'attr': {'class': 'form-control cmbFetxaKalc', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="min-date" class="col-sm-4 control-label">{{ 'Aurreikusitako iraupena' | trans }}</label>
+                <div class="col-sm-7 col-md-1">
+                    {{ form_widget(form.aurreikusitakoIraupena, { 'attr': {'class': 'form-control cmbFetxaKalc', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="min-date" class="col-sm-4 control-label">{{ 'Non da azterketa? (Herria) *' | trans }}</label>
+                <div class="col-sm-7">
+                    {{ form_widget(form.non, { 'attr': {'class': 'form-control cmbFetxaKalc', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+
+            <div class="row">&nbsp;</div>
+            <hr>
+            <div class="form-group" id="divOrduak">
+                <label for="min-date"
+                       class="col-sm-4 control-label">{{ 'Baimenaren <strong>ordu</strong> kopurua (Iraupena + joan/etorriak) *' | trans | raw }}</label>
+                <div class="col-sm-4">
+                    {{ form_widget(form.orduak, { 'attr': {'class': 'form-control', 'autocomplete': 'null'} }) }}
+                </div>
+            </div>
+            <hr>
+            <div class="row">&nbsp;</div>
+
+            <div class="form-group" id="divOharrak">
+                <label for="min-date" class="col-sm-4 control-label">Oharrak</label>
+                <div class="col-sm-4">
+                    {{ form_errors(form.oharra) }}
+                    {{ form_widget(form.oharra) }}
+                </div>
+            </div>
+
+            <label for="min-date" class="col-sm-4 control-label">{{ "Justifikantea gehitu" | trans }}</label>
+            <div class="col-sm-7">
+                {{ form_widget(form.justifikanteFile, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+
+            <hr>
+            <div class="row">&nbsp;</div>
+
+            <div class="form-group">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button id="btnSubmit" type="button"
+                            class="btn btn-primary">{{ 'Eskaera gauzatu' | trans }}</button>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <div style="display: none">
+                {{ form_end(form) }}
+                <input id="txtJornada" type="text" value="{{ calendar.getHoursDay }}">
+                <input id="hoursFree" type="text" value="{{ calendar.hoursFree }}">
+                <input id="eskaeramota" type="hidden" value="{{ eskaera.type.name }}">
+            </div>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+
+    <input type="hidden" id="txtJaiEgunak" value="{{ jaiegunak |  serialize('json') }}"/>
+
+{% endblock %}
+
+{% block foot_script %}
+    {{ parent() }}
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#btnSubmit").on("click", function () {
+
+                var ongi = true;
+
+                var erakundea = $("input[name='appbundle_eskaera[erakundea]']").val();
+                if (erakundea.length === 0) {
+                    bootbox.alert("Erakundea zehaztea beharrezkoa da.");
+                    ongi = false;
+                    return;
+                }
+
+                var hasi = $("input[name='appbundle_eskaera[hasi]']").val();
+                if (hasi.length === 0) {
+                    bootbox.alert("Azterketa noiz den zehaztea beharrezkoa da.");
+                    ongi = false;
+                    return;
+                }
+
+                var aurreikusitakoOrdua = $("input[name='appbundle_eskaera[aurreikusitakoOrdua]']").val();
+                if (aurreikusitakoOrdua.length === 0) {
+                    bootbox.alert("Azterketaren aurreikusitako ordua zehaztea beharrezkoa da.");
+                    ongi = false;
+                    return;
+                }
+
+                var non = $("input[name='appbundle_eskaera[non]']").val();
+                if (non.length === 0) {
+                    bootbox.alert("Azterketaren non den zehaztea beharrezkoa da.");
+                    ongi = false;
+                    return;
+                }
+
+                var orduak = $("input[name='appbundle_eskaera[orduak]']").val();
+                if (orduak.length === 0) {
+                    bootbox.alert("Baimenerako eskatzen duzun ordu koputua zehaztea beharrezkoa da.");
+                    ongi = false;
+                    return;
+                }
+
+
+                if (ongi) {
+                    $("#frmEskaeraNew").submit();
+                }
+
+            });
+
+
+            $("#appbundle_eskaera_orduak").blur(function () {
+                var orduak = $("#appbundle_eskaera_orduak").val();
+                // var lanaldi= $("#txtJornada").val();
+
+                // var resul = orduak * lanaldi;
+                // resul = parseFloat(resul);
+                orduak = parseFloat(orduak);
+
+                $("#appbundle_eskaera_total").val(orduak.toFixed(2));
+            });
+
+            $("#appbundle_eskaera_hasi").datepicker({
+                todayBtn: 1,
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                language: '{{ app.request.locale }}'
+            });
+
+            {#$("#appbundle_eskaera_amaitu").datepicker({#}
+            {#    autoclose: true,#}
+            {#    format: "yyyy-mm-dd",#}
+            {#    language: '{{ app.request.locale }}'#}
+            {#}).on('changeDate', function (selected) {#}
+            {#    var hasi = $("#appbundle_eskaera_hasi").val();#}
+            {#    if (hasi === "") { // Ez badago datarik zehaztuta#}
+            {#        var maxDate = new Date(selected.date.valueOf());#}
+            {#        $("#appbundle_eskaera_hasi").datepicker('setEndDate', maxDate);#}
+            {#    }#}
+            {#});#}
+
+            $("#appbundle_eskaera_noiz").datepicker({
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                language: '{{ app.request.locale }}'
+            });
+
+
+
+        });
+    </script>
+{% endblock %}
+
+

@@ -36,6 +36,7 @@ parameters:
     type_norbere: id
     type_lizentzia: id
     type_ikastaroa: id
+    type_azterketa: id
 
     redis_server: 'redis://localhost'
 

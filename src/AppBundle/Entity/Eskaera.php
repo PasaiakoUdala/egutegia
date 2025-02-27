@@ -310,7 +310,7 @@ class Eskaera
     /**
      * @var string
      *
-     * @ORM\Column(name="erakundea", type="string", length=255)
+     * @ORM\Column(name="erakundea", type="string", length=255, nullable=true)
      */
     private $erakundea;
 

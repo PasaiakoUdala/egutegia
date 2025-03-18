@@ -237,8 +237,8 @@ class Builder implements ContainerAwareInterface
                     'Saileko kuadrantea',
                     array(
                         'label'  => $this->container->get('translator')->trans('Saileko kuadrantea'),
-                        'route'  => 'admin_kuadrantea_eskaerekin',
-                        'routeParameters' => ['saila' => $user->getSaila()->getId()],
+                        'route'  => 'admin_kuadrantea_sailburuarentzat_eskaerekin',
+                        'routeParameters' => ['sailaid' => $user->getSaila()->getId()],
                         'icon'   => 'send',
                         'extras' => array('safe_label' => true),
                     )

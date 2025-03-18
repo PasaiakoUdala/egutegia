@@ -91,6 +91,34 @@ class EskaeraController extends Controller {
     }
 
     /**
+     * @Route("/kuadrantea-sailburuarentzat-eskaerekin", name="admin_kuadrantea_sailburuarentzat_eskaerekin")
+     *
+     * @return Response
+     *
+     * @internal param Request $request
+     **/
+    public function kuadranteaSailburuaEskaerekinAction(Request $request): ?Response
+    {
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSaila($this->getUser()->getSaila()->getId());
+
+        $year = date('Y');
+        // urteko lehen astea bada, aurreko urtea aukeratu
+        $date_now = new DateTime();
+        $date2    = new DateTime($year.'-01-06');
+
+        if ($date_now <= $date2) {
+            --$year;
+        }
+
+        return $this->render('default/kuadrantea.html.twig', [
+            'results' => $results ?? null,
+            'year' => $year
+        ]);
+    }
+
+    /**
      * Lists all eskaera entities.
      *
      * @Route("/", name="eskaera_index")
@@ -1104,7 +1132,6 @@ class EskaeraController extends Controller {
 
         return $this->redirectToRoute('admin_ikastaroa_list');
     }
-
 
     /**
      * @Route("/ordaindu/{id}", name="admin_ikastaroa_ordaindu")

@@ -245,7 +245,7 @@
                                         </a>
                                     </li>
 
-                                    {% if eskaera.type.id == type_lizentzia or eskaera.type.id == type_ikastaroa %}
+                                    {% if eskaera.type.id == type_lizentzia or eskaera.type.id == type_ikastaroa or eskaera.type.id == type_azterketa %}
                                         {% if eskaera.justifikanteName != null %}
                                             <li>
                                                 <a href="{{ vich_uploader_asset(eskaera, 'justifikanteFile') }}" target="_blank">

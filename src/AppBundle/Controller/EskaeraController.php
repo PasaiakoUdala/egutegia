@@ -521,6 +521,10 @@ class EskaeraController extends Controller {
             {
                 $amaitu = $eskaera->getAmaitu()->format('Y-m-d');
             }
+            if ($q === (string) $this->getParameter('type_azterketa'))
+            {
+                $eskaera->setAmaitu( $eskaera->getHasi()); // Azterketa bada hasiera / amaiera egun berdinean
+            }
 
             if ($data->getJustifikanteFile() !== null) {
                 $eskaera->setJustifikatua(1);

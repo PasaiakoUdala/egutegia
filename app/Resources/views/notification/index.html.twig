@@ -159,8 +159,16 @@
                 <td>{{ notification.eskaera.total }}</td>
                 <td>{{ notification.created | date('Y-m-d') }}
                 <td>
+
+                    {% if notification.eskaera.type.slug == "azterketak" %}
+                        <strong>Erakundea:</strong><span>{{ notification.eskaera.erakundea }}</span><br/>
+                        <strong>Non:</strong><span>{{ notification.eskaera.non }}</span><br/>
+                        <strong>Aurreikusitako ordua:</strong><span>{{ notification.eskaera.aurreikusitakoOrdua }}</span><br/>
+                        <strong>Aurreikusitako iraupena:</strong><span>{{ notification.eskaera.aurreikusitakoIraupena }}</span><br/>
+                    {% endif %}
                     <span data-html="true" data-toggle="tooltip" data-placement="top" title="{{ notification.eskaera.oharra }}">
                     {{ notification.eskaera.oharra|raw|length > 50 ? notification.eskaera.oharra|raw|slice(0, 50) ~ '...' : notification.eskaera.oharra | raw  }}
+                    </span>
                 </td>
 
                 <td>

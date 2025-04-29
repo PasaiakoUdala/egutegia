@@ -57,21 +57,21 @@ class EskaeraController extends Controller {
         $sailak = $em->getRepository('AppBundle:Taldea')->findAll();
         $taldeaIds = $request->query->get('saila');
 
-        if ($taldeaIds) {
-            // Ensure we have an array of individual values
-            if (!is_array($taldeaIds)) {
-                // If it's a comma-separated string, split it
-                if (strpos($taldeaIds, ',') !== false) {
-                    $taldeaIds = array_map('trim', explode(',', $taldeaIds));
-                } else {
-                    $taldeaIds = [$taldeaIds];
+        if ( $taldeaIds === 'sailburuak') {
+            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSailburuak();
+        } else {
+            if ($taldeaIds) {
+                // Ensure we have an array of individual values
+                if (!is_array($taldeaIds)) {
+                    // If it's a comma-separated string, split it
+                    if (strpos($taldeaIds, ',') !== false) {
+                        $taldeaIds = array_map('trim', explode(',', $taldeaIds));
+                    } else {
+                        $taldeaIds = [$taldeaIds];
+                    }
                 }
+                $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallTaldea($taldeaIds);
             }
-
-            // Get all results for all sailak at once
-            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallTaldea($taldeaIds);
-//        } else {
-//            $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSorted();
         }
 
         $year = date('Y');

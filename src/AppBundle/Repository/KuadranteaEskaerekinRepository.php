@@ -55,6 +55,18 @@ class KuadranteaEskaerekinRepository extends \Doctrine\ORM\EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findallSailburuak() {
+        $qb = $this->createQueryBuilder('k')
+            ->select('k')
+            ->join('k.user', 'u')
+            ->andWhere('u.sailburua=1')
+            ->orderBy('u.lanpostua', 'ASC')
+        ;
+
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function findallSaila($sailaid) {
         $qb = $this->createQueryBuilder('k')
             ->select('k')

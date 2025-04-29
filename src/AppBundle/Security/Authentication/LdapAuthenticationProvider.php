@@ -141,6 +141,12 @@ class LdapAuthenticationProvider extends BaseProvider
                         $alka =$ldapsrv->checkArduraduna($user->getUsername());
                         if ($alka['alkateada']) {
                             $user->addRole('ROLE_ARDURADUNA');
+                            $user->addRole('ROLE_IKUSI_SAILBURUEN_KUADRANTEA');
+                        }
+
+                        $ikusiSailArduradunKuadrantea = $ldapsrv->dagoErabiltzaileaLdapTaldean($username, 'APP-Web_Egutegia-Sailburuen-Kuadrantea');
+                        if ( $ikusiSailArduradunKuadrantea['dago']) {
+                            $user->addRole('ROLE_IKUSI_SAILBURUEN_KUADRANTEA');
                         }
                         $this->userManager->updateUser($user);
                     }

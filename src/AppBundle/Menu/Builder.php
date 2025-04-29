@@ -272,6 +272,19 @@ class Builder implements ContainerAwareInterface
                 )->setExtra('translation_domain', 'messages');
             }
 
+            if ($checker->isGranted('ROLE_IKUSI_SAILBURUEN_KUADRANTEA')) {
+                $menu[ 'User' ]->addChild(
+                    'kuadrantea',
+                    array(
+                        'label'  => $this->container->get('translator')->trans('Sailburuen kuadrantea'),
+                        'route'  => 'admin_kuadrantea_eskaerekin',
+                        'routeParameters' => ['saila' => 'sailburuak'],
+                        'icon'   => 'send',
+                        'extras' => array('safe_label' => true),
+                    )
+                )->setExtra('translation_domain', 'messages');
+            }
+
 
             if ($checker->isGranted('ROLE_SINATZAILEA') || $checker->isGranted('ROLE_SUPER_ADMIN')) {
                 $menu[ 'User' ]->addChild(

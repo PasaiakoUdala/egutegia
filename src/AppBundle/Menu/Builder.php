@@ -170,9 +170,13 @@ class Builder implements ContainerAwareInterface
                         'dropdown' => true,
                         'icon' => 'user',
                         'pull-right' => true,
-                        'childrenAttributes'     => ['class' =>'dropdown-menu dropdown-menu-right']
+                        'extras' => array('safe_label' => true),
                     ));
-                $menu['User']->setChildrenAttribute('class', 'nav navbar-nav navbar-right');
+                $menu['User']->setAttribute('class', 'dropdown');
+                $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
+                $menu['User']->setLinkAttribute('data-toggle', 'dropdown');
+                $menu['User']->setChildrenAttribute('class', 'dropdown-menu');
+                $menu['User']->setChildrenAttribute('style', 'right: 0; left: auto; min-width: 250px; text-align: left;');
             } else {
                 $menu->addChild(
                     'User',
@@ -182,9 +186,13 @@ class Builder implements ContainerAwareInterface
                         'dropdown'   => true,
                         'icon'       => 'user',
                         'extras'     => array('safe_label' => true),
-                        'childrenAttributes' => ['class' =>'dropdown-menu dropdown-menu-right']
                     )
                 );
+                $menu['User']->setAttribute('class', 'dropdown');
+                $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
+                $menu['User']->setLinkAttribute('data-toggle', 'dropdown');
+                $menu['User']->setChildrenAttribute('class', 'dropdown-menu');
+                $menu['User']->setChildrenAttribute('style', 'right: 0; left: auto; min-width: 250px; text-align: left;');
             }
 
             $menu[ 'User' ]->addChild('Egutegia',['route' => 'user_homepage','icon'  => 'calendar',])->setExtra('translation_domain', 'messages');
@@ -332,17 +340,27 @@ class Builder implements ContainerAwareInterface
         if ($checker->isGranted('ROLE_USER')) {
             if (\count($notifications) === 0) {
                 $menu->addChild('User', array('label' => $user->getDisplayname(), 'dropdown' => true, 'icon' => 'user'));
+                $menu['User']->setAttribute('class', 'dropdown');
+                $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
+                $menu['User']->setLinkAttribute('data-toggle', 'dropdown');
+                $menu['User']->setChildrenAttribute('class', 'dropdown-menu');
+                $menu['User']->setChildrenAttribute('style', 'right: 0; left: auto; min-width: 250px; text-align: left;');
             } else {
                 $menu->addChild(
                     'User',
                     array(
-                        'pull-right' => true,
                         'label'      => $user->getDisplayname()." <span id='mainMenuNotificationCount' class='badge badge-error'>".\count($notifications).'</span>',
                         'dropdown'   => true,
                         'icon'       => 'user',
+                        'pull-right' => true,
                         'extras'     => array('safe_label' => true),
                     )
                 );
+                $menu['User']->setAttribute('class', 'dropdown');
+                $menu['User']->setLinkAttribute('class', 'dropdown-toggle');
+                $menu['User']->setLinkAttribute('data-toggle', 'dropdown');
+                $menu['User']->setChildrenAttribute('class', 'dropdown-menu');
+                $menu['User']->setChildrenAttribute('style', 'right: 0; left: auto; min-width: 250px; text-align: left;');
             }
 
             $menu->addChild(

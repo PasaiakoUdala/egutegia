@@ -31,3 +31,43 @@
 legend {
   display: none;
 }
+
+// Fix for dropdown menu alignment on the right side
+.dropdown-menu-right {
+  right: 0 !important;
+  left: auto !important;
+  text-align: left !important;
+  width: 250px !important;
+  max-width: 100% !important;
+}
+
+// Ensure dropdown menu has enough width
+.dropdown-menu {
+  min-width: 250px !important;
+}
+
+// Fix for menu items that might be too long
+.dropdown-menu > li > a {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  padding: 8px 15px !important;
+}
+
+// Ensure the dropdown container doesn't get cut off
+.nav-eskubi .dropdown {
+  position: relative !important;
+}
+
+.nav-eskubi .dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
+  position: absolute !important;
+}
+
+// Specific fix for the User dropdown
+.nav-eskubi > li.dropdown > ul.dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
+  position: absolute !important;
+  float: right !important;
+}

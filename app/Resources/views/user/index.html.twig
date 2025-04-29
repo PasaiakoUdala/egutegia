@@ -61,9 +61,9 @@
                 <td>{{ user.lanpostua }}</td>
                 <td>
                     {% if user.aktibo == false %}
-                        <span class="label label-danger"><a class="lblBaja" href="{{path('admin_user_alta', {'id': user.id})}}">Baja</a></span>
+                        <span class="label label-danger toggle-active" data-id="{{ user.id }}" data-status="0"><a href="javascript:void(0)">Baja</a></span>
                     {% else %}
-                        <span class="label label-success"><a class="lblAlta" href="{{path('admin_user_baja', {'id': user.id})}}">Alta</a></span>
+                        <span class="label label-success toggle-active" data-id="{{ user.id }}" data-status="1"><a href="javascript:void(0)">Alta</a></span>
                     {% endif %}
                 </td>
             </tr>
@@ -94,6 +94,42 @@
 
         $( function () {
             initTable();
+            
+            // Toggle active status via AJAX
+            $(document).on('click', '.toggle-active', function() {
+                var $this = $(this);
+                var userId = $this.data('id');
+                
+                $.ajax({
+                    url: '{{ path('admin_user_toggle_active', {'id': 'USER_ID'}) }}'.replace('USER_ID', userId),
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the UI
+                            if (response.isActive) {
+                                $this.removeClass('label-danger').addClass('label-success');
+                                $this.data('status', 1);
+                                $this.find('a').text('Alta');
+                            } else {
+                                $this.removeClass('label-success').addClass('label-danger');
+                                $this.data('status', 0);
+                                $this.find('a').text('Baja');
+                            }
+                        } else {
+                            // Show error message
+                            alert('Errorea: ' + response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        var errorMsg = 'Errorea gertatu da';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMsg = xhr.responseJSON.message;
+                        }
+                        alert(errorMsg);
+                    }
+                });
+            });
         } );
 
     </script>

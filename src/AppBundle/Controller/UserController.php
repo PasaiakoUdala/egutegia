@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Tests\Encoder\PasswordEncoder;
 
@@ -125,5 +126,47 @@ class UserController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('admin_saila_show', ['id' => $sailaid]);
+    }
+
+    /**
+     * @Route("/toggle-active/{id}", name="admin_user_toggle_active")
+     * @Method("POST")
+     */
+    public function toggleActiveAction(Request $request, $id)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(['success' => false, 'message' => 'Only AJAX requests are allowed'], 400);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        /** @var User $user */
+        $user = $em->getRepository('AppBundle:User')->find($id);
+        
+        if (!$user) {
+            return new JsonResponse(['success' => false, 'message' => 'User not found'], 404);
+        }
+
+        try {
+            // Toggle the active status
+            $currentStatus = $user->getAktibo();
+            $user->setAktibo(!$currentStatus);
+            $em->persist($user);
+            $em->flush();
+
+            $newStatus = $user->getAktibo() ? 'Alta' : 'Baja';
+            $message = 'Erabiltzailearen egoera aldatu da: ' . $newStatus;
+
+            return new JsonResponse([
+                'success' => true, 
+                'message' => $message,
+                'newStatus' => $newStatus,
+                'isActive' => $user->getAktibo()
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse([
+                'success' => false, 
+                'message' => 'Errorea erabiltzailearen egoera aldatzean: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

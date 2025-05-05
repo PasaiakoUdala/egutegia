@@ -5,92 +5,31 @@
             <tr>
                 <th>Langilea</th>
                 <th>Lanpostua</th>
-                <th style="width: 40px !important;">01</th>
-                <th style="width: 40px !important;">02</th>
-                <th style="width: 40px !important;">03</th>
-                <th style="width: 40px !important;">04</th>
-                <th style="width: 40px !important;">05</th>
-                <th style="width: 40px !important;">06</th>
-                {% if egunak > 6 %}
-                    <th style="width:40px !important">07</th>
-                    <th style="width:40px !important">08</th>
-                    <th style="width:40px !important">09</th>
-                    <th style="width:40px !important">10</th>
-                    <th style="width:40px !important">11</th>
-                    <th style="width:40px !important">12</th>
-                    <th style="width:40px !important">13</th>
-                    <th style="width:40px !important">14</th>
-                    <th style="width:40px !important">15</th>
-                    <th style="width:40px !important">16</th>
-                    <th style="width:40px !important">17</th>
-                    <th style="width:40px !important">18</th>
-                    <th style="width:40px !important">19</th>
-                    <th style="width:40px !important">20</th>
-                    <th style="width:40px !important">21</th>
-                    <th style="width:40px !important">22</th>
-                    <th style="width:40px !important">23</th>
-                    <th style="width:40px !important">24</th>
-                    <th style="width:40px !important">25</th>
-                    <th style="width:40px !important">26</th>
-                    <th style="width:40px !important">27</th>
-                    <th style="width:40px !important">28</th>
-                    <th style="width:40px !important">29</th>
-                {% endif %}
-
-                {% if egunak >= 30 %}
-                    <th style="width:40px !important">30</th>
-                {% endif %}
-                {% if egunak >= 31 %}
-                    <th style="width:40px !important">31</th>
-                {% endif %}
+                {% for i in 1..egunak %}
+                    <th style="width: 40px !important;">{{ i < 10 ? '0' ~ i : i }}</th>
+                {% endfor %}
             </tr>
             </thead>
             <tbody>
             {% for r in results if r.hilabetea == hilabetea and r.urtea == year %}
                 <tr>
-                    <td data-userid="{{ r.user.id }}">{{ r.user.displayname }} </td>
+                    <td data-userid="{{ r.user.id }}">{{ r.user.displayname }}</td>
                     <td>{{ r.user.lanpostua }}</td>
-                    <td class="text-center" {% if r.day01 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day01 }}">{{ r.day01|split(' => ')[0] }}</span></td>
-                    <td class="text-center" {% if r.day02 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day02 }}">{{ r.day02|split(' => ')[0] }}</span></td>
-                    <td class="text-center" {% if r.day03 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day03 }}">{{ r.day03|split(' => ')[0] }}</span></td>
-                    <td class="text-center" {% if r.day04 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day04 }}">{{ r.day04|split(' => ')[0] }}</span></td>
-                    <td class="text-center" {% if r.day05 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day05 }}">{{ r.day05|split(' => ')[0] }}</span></td>
-                    <td class="text-center" {% if r.day06 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day06 }}">{{ r.day06|split(' => ')[0] }}</span></td>
-                    {% if egunak > 6 %}
-                        <td class="text-center" {% if r.day07 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day07 }}">{{ r.day07|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day08 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day08 }}">{{ r.day08|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day09 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day09 }}">{{ r.day09|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day10 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day10 }}">{{ r.day10|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day11 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day11 }}">{{ r.day11|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day12 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day12 }}">{{ r.day12|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day13 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day13 }}">{{ r.day13|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day14 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day14 }}">{{ r.day14|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day15 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day15 }}">{{ r.day15|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day16 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day16 }}">{{ r.day16|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day17 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day17 }}">{{ r.day17|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day18 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day18 }}">{{ r.day18|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day19 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day19 }}">{{ r.day19|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day20 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day20 }}">{{ r.day20|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day21 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day21 }}">{{ r.day21|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day22 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day22 }}">{{ r.day22|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day23 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day23 }}">{{ r.day23|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day24 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day24 }}">{{ r.day24|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day25 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day25 }}">{{ r.day25|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day26 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day26 }}">{{ r.day26|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day27 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day27 }}">{{ r.day27|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day28 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day28 }}">{{ r.day28|split(' => ')[0]  }}</span></td>
-                        <td class="text-center" {% if r.day29 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day29 }}">{{ r.day29|split(' => ')[0]  }}</span></td>
-                    {% endif %}
-                    {% if egunak >= 30 %}
-                        <td class="text-center" {% if r.day30 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day30 }}">{{ r.day30|split(' => ')[0]  }}</span></td>
-                    {% endif %}
-                    {% if egunak >= 31 %}
-                        <td class="text-center" {% if r.day31 | last == '#'  %} style="background-color: #94c764" {% endif %}><span data-toggle="tooltip" data-placement="top" title="{{ r.day31 }}">{{ r.day31|split(' => ')[0]  }}</span></td>
-                    {% endif %}
+                    {% for i in 1..egunak %}
+                        {% set dayKey = 'day' ~ (i < 10 ? '0' ~ i : i) %}
+                        {% set day = attribute(r, dayKey) %}
+                        <td class="text-center" {% if day|last == '#' %} style="background-color: #bd45b0" {% endif %}>
+                            {% if sailburuak %}
+                                <span></span>
+                            {% else %}
+                                <span data-toggle="tooltip" data-placement="top" title="{{ day }}">{{ day|split(' => ')[0] }}</span>
+                            {% endif %}
+
+                        </td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-

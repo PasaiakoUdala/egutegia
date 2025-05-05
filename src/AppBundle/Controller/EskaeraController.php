@@ -56,9 +56,11 @@ class EskaeraController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $sailak = $em->getRepository('AppBundle:Taldea')->findAll();
         $taldeaIds = $request->query->get('saila');
+        $sailburuak = false; // true bada, kuadrantean testuak ezkutatuko ditugu
 
         if ( $taldeaIds === 'sailburuak') {
             $results = $em->getRepository('AppBundle:KuadranteaEskaerekin')->findallSailburuak();
+            $sailburuak = true;
         } else {
             if ($taldeaIds) {
                 // Ensure we have an array of individual values
@@ -86,7 +88,8 @@ class EskaeraController extends Controller {
         return $this->render('default/kuadrantea.html.twig', [
             'results' => $results ?? null,
             'year' => $year,
-            'sailak' => $sailak
+            'sailak' => $sailak,
+            'sailburuak' => $sailburuak,
         ]);
     }
 

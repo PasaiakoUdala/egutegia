@@ -155,7 +155,12 @@
                                 {% if eskaera.type.labur =="IKA" %}
                                     {{ eskaera.user }}
                                 {% else %}
-                                    {{ eskaera.name }} {{dump(eskaera)}}
+                                    {% if eskaera.user.displayname != eskaera.name %}
+                                        {{ eskaera.user.displayname }} => {{ eskaera.name }}
+                                    {% else %}
+                                        {{ eskaera.name }}
+                                    {% endif %}
+
                                 {% endif %}
                             </a>
                         </td>

@@ -155,7 +155,7 @@
                                 {% if eskaera.type.labur =="IKA" %}
                                     {{ eskaera.user }}
                                 {% else %}
-                                    {{ eskaera.name }}
+                                    {{ eskaera.name }} {{dump(eskaera)}}
                                 {% endif %}
                             </a>
                         </td>
@@ -635,7 +635,7 @@
 
 
                     $detail.html(html);
-                }).fail(function () {
+                }}).fail(function () {
                     bootbox.alert({
                         message: "Akats bat gertatu da. Agian eskaera bideratu gabe dago?",
                         className: "bb-alternate-modal",

@@ -151,7 +151,12 @@
                         <td>{{ eskaera.id }}</td>
                         <td>{{ eskaera.emaitza }}</td>
                         <td>
-                            <a href="{{ path('admin_calendar_edit', { 'id': eskaera.calendar.id }) }}" class="btnEskaera" data-id="{{ eskaera.id }}">
+
+                            {% if eskaera.calendar is not null %}
+                                <a href="{{ path('admin_calendar_edit', { 'id': eskaera.calendar.id }) }}" class="btnEskaera" data-id="{{ eskaera.id }}">
+                            {% else %}
+                                <a href="#" class="btnEskaera disabled" data-id="{{ eskaera.id }}">
+                            {% endif %}
                                 {% if eskaera.type.labur =="IKA" %}
                                     {{ eskaera.user }}
                                 {% else %}
@@ -160,7 +165,6 @@
                                     {% else %}
                                         {{ eskaera.name }}
                                     {% endif %}
-
                                 {% endif %}
                             </a>
                         </td>
@@ -454,7 +458,6 @@
             });
 
             $(document).on("click", ".btnEskaeraEgutegira", function () {
-                // $(".btnEskaeraEgutegira").on("click", function () {
 
                 var egutegian = $(this).data("egutegian");
 
@@ -480,7 +483,7 @@
                     },
                     callback: function ( result ) {
                         if ( result === true ) {
-                            window.location.href = Routing.generate("eskaera_add_to_calendar", { "id": miid }, true);
+                            window.location.href = Routing.generate("eskaera_add_to_calendar", { "id": miid, 'nondik': 'eskaeretatik' }, true);
                         }
 
                     }

@@ -335,9 +335,11 @@ class EskaeraController extends Controller {
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Doctrine\ORM\ORMException
      */
-    public function addToCalendarAction(Eskaera $eskaera)
+    public function addToCalendarAction(Request $request,Eskaera $eskaera)
     {
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Egin login');
+
+        $nondik = $request->query->get('nondik');
 
         $em = $this->getDoctrine()->getManager();
 
@@ -349,6 +351,8 @@ class EskaeraController extends Controller {
             'event_fin'   => $eskaera->getAmaitu(),
             'event_hours' => $eskaera->getTotal(),
         );
+
+
 
         if ($eskaera->getType()->getId() === 5)
         {
@@ -374,6 +378,9 @@ class EskaeraController extends Controller {
 
         $this->addFlash('success', 'Datuak ongi gordeak izan dira.');
 
+        if ( $nondik === 'eskaeretatik') {
+            return $this->redirectToRoute('admin_eskaera_list', ['q' => 'unadded']);
+        }
         return $this->redirectToRoute('admin_eskaera_list');
     }
 

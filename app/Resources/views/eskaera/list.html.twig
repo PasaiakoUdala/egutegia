@@ -443,7 +443,7 @@
                 format: "yyyy-mm-dd",
                 language: "eu"
             });
-            $("input[name*='appbundle_eskaera[amaitu]").datepicker({
+            $("input[name*='appbundle_eskaera[amaitu]']").datepicker({
                 autoclose: true,
                 format: "yyyy-mm-dd",
                 language: "eu"
@@ -640,7 +640,7 @@
 
 
                     $detail.html(html);
-                }}).fail(function () {
+                }).fail(function () {
                     bootbox.alert({
                         message: "Akats bat gertatu da. Agian eskaera bideratu gabe dago?",
                         className: "bb-alternate-modal",
@@ -736,9 +736,9 @@
             });
 
             $('#transferButtonSubmit').on('click', function () {
-                $destinouserid = $('#destinouserid').val();
+                var $destinouserid = $('#destinouserid').val();
                 if ($destinouserid === "-1") {
-                    alert("Aukeratu sinatzaile bat.")
+                    alert("Aukeratu sinatzaile bat.");
                     return;
                 }
                 $('#frmEskaeraTransfer').submit();

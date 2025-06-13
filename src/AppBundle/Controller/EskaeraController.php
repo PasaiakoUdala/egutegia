@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Ikastaroa;
+use AppBundle\Entity\Sinatzaileak;
 use AppBundle\Form\EskaeraAzterketaType;
 use AppBundle\Form\EskaeraIkastaroaType;
 use AppBundle\Form\EskaeraIkastaroPdfType;
@@ -279,6 +280,61 @@ class EskaeraController extends Controller {
             'bertanbehera' => $bertanbehera
         ]);
     }
+
+    /**
+     *
+     * @Route("/add-sinatzailea", name="eskaera_add_sinatzailea")
+     * @Method("GET")
+     */
+    public function addsinatzaileaAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $history = $request->query->get('history', '1');
+        $bertanbehera = $request->query->get('bertanbehera', '0');
+        $destinouserid  = $request->request->get('destinouserid');
+        $firmaid        = $request->request->get('firmaid');
+        $notifyid       = $request->request->get('notifyid');
+        $eskaeraid       = $request->request->get('eskaeraid');
+
+//        /** @var User $dUser */
+//        $dUser = $em->getRepository('AppBundle:User')->find($destinouserid);
+        /** @var Firma $firma */
+        $firma = $em->getRepository('AppBundle:Firma')->find($firmaid);
+        /** @var Eskaera $eskaera */
+        $eskaera = $em->getRepository('AppBundle:Eskaera')->find($eskaeraid);
+
+        /** @var Sinatzaileak $sinatzaileZerrenda */
+        $sinatzaileZerrenda = $em->getRepository('AppBundle:Sinatzaileakdet')->getZerrendakoSinatzaileakOrdenean($eskaera->getSinatzaileak()->getId());
+
+
+        // Ezabatu sinatzailedet-ak
+        foreach ($firma->getFirmadet() as $fd) {
+            $em->remove($fd);
+        }
+        $em->flush();
+
+        $lehenSinatzaile = $sinatzaileZerrenda[ 0 ];
+        // Gehitu sinatzailedet-ak
+        foreach ( $sinatzaileZerrenda as $sinatzaile) {
+            /** @var Firmadet $fd */
+            $fd = new Firmadet();
+            $fd->setFirma($firma);
+            $fd->setSinatzaileakdet($sinatzaile);
+            $em->persist($fd);
+        }
+        $em->flush();
+
+        /** @var NotificationService $notifysrv */
+        $notifysrv = $this->container->get('app.sinatzeke');
+        $notifysrv->sendNotificationToFirst($eskaera, $firma, $lehenSinatzaile);
+
+        return $this->redirectToRoute('admin_eskaera_list', [
+            'q' => 'unsigned',
+            'history' => $history,
+            'bertanbehera' => $bertanbehera
+        ]);
+    }
+
 
     /**
      *

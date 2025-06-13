@@ -407,6 +407,44 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+    <div class="modal fade" id="addSinatzaileaModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Berbideratu</h4>
+                </div>
+                <div class="modal-body messageModalBody">
+                    <form name="appbundle_eskaera" method="post" action="{{ path('eskaera_add_sinatzailea') }}" class="form-horizontal" id="frmAddSinatzailea" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <h2  class="col-sm-12">
+                                Eskaera honek dituen sinatzaile zerrenda ezabatuko da.
+                                Eskaerari zerrenda horretako sinatzaileak gehituko zaizkio, zerrendako ordenean.
+                                Aurretik inork eskaera sinatua badu, berriro sinatu beharko du.
+                            </h2>
+                            <div class="col-sm-7">
+{#                                <select name="destinouserid" id="addSinatzaileaDestinouserid" class="form-control">#}
+{#                                    <option value="-1">Aukeratu bat</option>#}
+{#                                    {% for s in sinatzaileroldutenak %}#}
+{#                                        <option value="{{ s.id }}">{{ s.username }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+                                <input type="hidden" name="firmaid" id="add_sinatzailea_firmaid"  value="">
+                                <input type="hidden" name="userid" id="add_sinatzailea_oriuserid"  value="">
+                                <input type="hidden" name="notifyid" id="add_sinatzailea_notifyid"  value="">
+                                <input type="hidden" name="eskaeraid" id="add_sinatzailea_eskaeraid"  value="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Itxi</button>
+                    <button id="addSinatzaileaButtonSubmit" type="button" class="btn btn-primary">Gehitu Sinatzailea</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 {% endblock %}
 
 {% block foot_script %}
@@ -622,6 +660,7 @@
                             html = html + "<td>" +
                                 "<button class='btn btn-xs btn-primary btnPostIt' data-firmaid=" + obj.firmaid + " data-userid=" + obj.user.id + " data-notifyid=" + jakinarazpenid + ">Post it!</button>" +
                                 "&nbsp;<button class='btn btn-xs btn-warning btnTransfer' data-firmaid=" + obj.firmaid + " data-userid=" + obj.user.id + " data-notifyid=" + jakinarazpenid + ">Transferitu</button>" +
+                                "&nbsp;<button class='btn btn-xs btn-info btnAddsinatzailea' data-addsinatzaileaeskaeraid=" + obj.eskaeraid + " data-addsinatzaileafirmaid=" + obj.firmaid + " data-addsinatzaileauserid=" + obj.user.id + " data-addsinatzaileanotifyid=" + jakinarazpenid + ">Berbideratu</button>" +
                                 "</td>";
                         } else {
                             if ( postit === true ) {
@@ -738,6 +777,18 @@
                 $('#transferModal').modal();
             });
 
+            $("#tableEskaerak").on("click", ".btnAddsinatzailea", function () {
+                $firmatid = $(this).data('addsinatzaileafirmaid');
+                $userid = $(this).data('addsinatzaileauserid');
+                $notifyid = $(this).data('addsinatzaileanotifyid');
+                $eskaeraid = $(this).data('addsinatzaileaeskaeraid');
+                $('#add_sinatzailea_firmaid').val($firmatid);
+                $('#add_sinatzailea_oriuserid').val($userid);
+                $('#add_sinatzailea_notifyid').val($notifyid);
+                $('#add_sinatzailea_eskaeraid').val($eskaeraid);
+                $('#addSinatzaileaModal').modal();
+            });
+
             $('#transferButtonSubmit').on('click', function () {
                 var $destinouserid = $('#destinouserid').val();
                 if ($destinouserid === "-1") {
@@ -745,6 +796,15 @@
                     return;
                 }
                 $('#frmEskaeraTransfer').submit();
+            });
+
+            $('#addSinatzaileaButtonSubmit').on('click', function () {
+                // var $destinouserid = $('#addSinatzaileaDestinouserid').val();
+                // if ($destinouserid === "-1") {
+                //     alert("Aukeratu sinatzaile bat.");
+                //     return;
+                // }
+                $('#frmAddSinatzailea').submit();
             });
 
 

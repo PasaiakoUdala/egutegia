@@ -1313,6 +1313,7 @@ class ApiController extends FOSRestController
                 'firmaid'   => $firma->getId(),
                 'firmatua'  => $f->getFirmatua(),
                 'noiz'      => $f->getNoiz(),
+                'eskaeraid' => $eskaera->getId(),
             ];
 
             $users[] = $r;

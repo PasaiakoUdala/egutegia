@@ -50,4 +50,15 @@ class SinatzaileakdetRepository extends \Doctrine\ORM\EntityRepository
         ;
         return $qm->getQuery()->getSingleResult();
     }
+
+    public function getZerrendakoSinatzaileakOrdenean($id)
+    {
+        $qm = $this->createQueryBuilder('sd')
+            ->innerJoin('sd.sinatzaileak', 's')
+            ->andWhere('s.id = :id')->setParameter('id', $id)
+            ->orderBy('sd.orden', 'ASC')
+        ;
+
+        return $qm->getQuery()->getResult();
+    }
 }

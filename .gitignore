@@ -18,8 +18,8 @@
 !var/sessions/.gitkeep
 
 ## Parameters
-#/app/config/parameters.yml
-#/app/config/parameters.ini
+/app/config/parameters.yml
+/app/config/parameters.ini
 
 # Managed by Composer
 /app/bootstrap.php.cache
@@ -48,7 +48,7 @@
 **/Entity/*~
 
 .idea/
-#app/config/parameters.yml
+app/config/parameters.yml
 var/bootstrap.php.cache
 var/cache/dev/
 var/logs/dev.log

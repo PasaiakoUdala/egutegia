@@ -1,0 +1,247 @@
+{% extends 'base.html.twig' %}
+
+{% block head_style %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/bootstrap-colorpicker.min.css">
+{% endblock %}
+{% block headline %} {% endblock  %}
+{% block content_row %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">#{{ eskaera.id }} - {{ eskaera.name }}</h3>
+                </div>
+                <div class="panel-body">
+
+                    <!-- Información básica -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ 'ID' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.id }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Izena' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.name }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Eskaera data' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.noiz|date('Y-m-d H:i:s') }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Hasiera data' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.hasi|date('Y-m-d H:i:s') }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Amaiera data' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.amaitu ? eskaera.amaitu|date('Y-m-d H:i:s') : 'Ez definido' }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Egunak' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.egunak }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Orduak' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.orduak }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Totala' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.total }}</p>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Estados booleanos -->
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Abiatua' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.abiatua ? 'success' : 'default' }}">
+                                        {{ eskaera.abiatua ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Bertanbehera' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.bertanbehera ? 'success' : 'default' }}">
+                                        {{ eskaera.bertanbehera ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Bideratua' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.bideratua ? 'success' : 'default' }}">
+                                        {{ eskaera.bideratua ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Amaitua' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.amaitua ? 'success' : 'default' }}">
+                                        {{ eskaera.amaitua ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Egutegian' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.egutegian ? 'success' : 'default' }}">
+                                        {{ eskaera.egutegian ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Konfliktoa' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.konfliktoa ? 'danger' : 'default' }}">
+                                        {{ eskaera.konfliktoa ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Emaitza' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.emaitza ? 'success' : 'default' }}">
+                                        {{ eskaera.emaitza ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Justifikatua' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <span class="label label-{{ eskaera.justifikatua ? 'success' : 'default' }}">
+                                        {{ eskaera.justifikatua ? 'Bai' : 'Ez' }}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información adicional -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% if eskaera.oharra %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Oharra' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.oharra }}</p>
+                            </div>
+                            {% endif %}
+
+                            {% if eskaera.nondik %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Ezndik' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.nondik }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Archivos adjuntos -->
+                    {% if eskaera.justifikanteName or eskaera.ikastaroaName or eskaera.ikastaroaName2 or eskaera.ikastaroaName3 %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4>{{ 'Fitxategiak' | trans }}</h4>
+
+                            {% if eskaera.justifikanteName %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Justifikantea' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <a href="{{ vich_uploader_asset(eskaera, 'justifikanteFile') }}" target="_blank">
+                                        {{ eskaera.justifikanteName }}
+                                    </a>
+                                    <small>({{ eskaera.justifikanteSize }} bytes)</small>
+                                </p>
+                            </div>
+                            {% endif %}
+
+                            {% if eskaera.ikastaroaName %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Ikastaroa 1' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <a href="{{ vich_uploader_asset(eskaera, 'ikastaroaFile') }}" target="_blank">
+                                        {{ eskaera.ikastaroaName }}
+                                    </a>
+                                    <small>({{ eskaera.ikastaroaSize }} bytes)</small>
+                                </p>
+                            </div>
+                            {% endif %}
+
+                            {% if eskaera.ikastaroaName2 %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Ikastaroa 2' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <a href="{{ vich_uploader_asset(eskaera, 'ikastaroaFile2') }}" target="_blank">
+                                        {{ eskaera.ikastaroaName2 }}
+                                    </a>
+                                    <small>({{ eskaera.ikastaroaSize2 }} bytes)</small>
+                                </p>
+                            </div>
+                            {% endif %}
+
+                            {% if eskaera.ikastaroaName3 %}
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Ikastaroa 3' | trans }}:</label>
+                                <p class="form-control-static">
+                                    <a href="{{ vich_uploader_asset(eskaera, 'ikastaroaFile3') }}" target="_blank">
+                                        {{ eskaera.ikastaroaName3 }}
+                                    </a>
+                                    <small>({{ eskaera.ikastaroaSize3 }} bytes)</small>
+                                </p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Fechas de sistema -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Created' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.created|date('Y-m-d H:i:s') }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Updated' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.updated|date('Y-m-d H:i:s') }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if eskaera.contentChangedBy %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">{{ 'Content Changed By' | trans }}:</label>
+                                <p class="form-control-static">{{ eskaera.contentChangedBy }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -37,6 +37,8 @@ parameters:
     type_lizentzia: id
     type_ikastaroa: id
     type_azterketa: id
+    type_ikastarora_juteko_baimena: id
+
 
     redis_server: 'redis://localhost'
 

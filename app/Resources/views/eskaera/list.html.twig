@@ -254,7 +254,11 @@
                                         </a>
                                     </li>
 
-                                    {% if eskaera.type.id == type_lizentzia or eskaera.type.id == type_ikastaroa or eskaera.type.id == type_azterketa %}
+                                    {% if eskaera.type.id == type_lizentzia
+                                        or eskaera.type.id == type_ikastaroa
+                                        or eskaera.type.id == type_azterketa
+                                        or eskaera.type.id == type_ikastarora_juteko_baimena
+                                    %}
                                         {% if eskaera.justifikanteName != null %}
                                             <li>
                                                 <a href="{{ vich_uploader_asset(eskaera, 'justifikanteFile') }}" target="_blank">
@@ -311,14 +315,14 @@
                                         <li>
                                             <a href="javascript:void(0);" class="btnEskaeraEgutegira"
                                                data-id="{{ eskaera.id }}" data-egutegian="{{ eskaera.egutegian }}">
-                                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Egutegian sartu
                                             </a>
                                         </li>
 
                                         <li>
                                             <a href="javascript:void(0);" class="btnEskaeraGauzatuaMarkatu"
                                                data-id="{{ eskaera.id }}" data-egutegian="{{ eskaera.egutegian }}">
-                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                <i class="fa fa-check" aria-hidden="true"></i> Gauzatua
                                             </a>
                                         </li>
 

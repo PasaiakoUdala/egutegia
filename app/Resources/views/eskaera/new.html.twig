@@ -112,7 +112,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label for="min-date" class="col-sm-4 control-label">{{ 'Eskaera data' | trans }}</label>
                 <div class="col-sm-7">
@@ -157,6 +156,29 @@
                 <hr>
             {% endif %}
 
+            {% if eskaera.type.id == type_ikastarora_juteko_baimena %}
+
+                <hr>
+
+                <div class="form-group">
+
+                    <label for="min-date" class="col-sm-4 control-label">{{ "Justifikantea gehitu" | trans }}</label>
+                    <div class="col-sm-7">
+                        {{ form_widget(form.justifikanteFile, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+
+                    <div class="row">&nbsp;</div>
+                    <div class="row">&nbsp;</div>
+
+                    <div class="row">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-6"><p>{{ 'lizentzia_text' | trans }}</p></div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+
+                <hr>
+            {% endif %}
 
             <div class="form-group">
                 <div class="col-md-4"></div>

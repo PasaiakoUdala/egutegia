@@ -108,7 +108,8 @@ class CalendarService
                     // Begiratu nahiko ordu dituen Egunetan
                     // Eskatutako ordu adina edo gehiago baditu
                     if ( $calendar->getHoursSelf() >= $orduak ) {
-                        $egunOsoaOrduak = $orduak;
+                        $calendar->setHoursSelf( $calendar->getHoursSelf() - $orduak );
+                        $calendar->setHoursSelfHalf( $calendar->getHoursSelfHalf() - $orduak );
                     } else if ( $egutegiaOrduakTotal >= $orduak ) {
                         $zenbatEgun = $orduak / $jornada;
                         // Egun osoen kenketa
@@ -118,11 +119,13 @@ class CalendarService
 
                         $egunOsoaOrduak = $egunOsoak * $jornada;
                         $partziala      = $gainontzekoa * $jornada;
+
+                        $calendar->setHoursSelf( $calendar->getHoursSelf() - $egunOsoaOrduak );
+                        $calendar->setHoursSelfHalf( $calendar->getHoursSelfHalf() - $partziala );
                     }
                 }
 
-                $calendar->setHoursSelf( $calendar->getHoursSelf() - $egunOsoaOrduak );
-                $calendar->setHoursSelfHalf( $calendar->getHoursSelfHalf() - $partziala );
+
             }
             if ( $t->getRelated() === 'hours_compensed' ) {
                 $calendar->setHoursCompensed(

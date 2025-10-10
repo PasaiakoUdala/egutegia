@@ -612,6 +612,8 @@ class EskaeraController extends Controller {
             $template = 'eskaera/newAzterketa.html.twig';
         }
 
+        $countOrduEskaerak = $em->getRepository('AppBundle:Eskaera')->countOrduEskaerak($user->getId());
+
         return $this->render(
             $template,
             [
@@ -620,6 +622,7 @@ class EskaeraController extends Controller {
                 'jaiegunak' => $jaiegunak,
                 'munipada' => $user->getMunipada(),
                 'form' => $form->createView(),
+                'countOrduEskaerak' => $countOrduEskaerak
             ]
         );
     }

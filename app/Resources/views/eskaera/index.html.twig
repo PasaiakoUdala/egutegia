@@ -130,7 +130,11 @@
                                 <p>Eskaera baliogabetua</p>
                             {% else %}
                                 <ul>
-                                    {% if eskaera.type.id == type_lizentzia or eskaera.type.id == type_ikastaroa or eskaera.type.id == type_azterketa %}
+                                    {% if eskaera.type.id == type_lizentzia
+                                        or eskaera.type.id == type_ikastaroa
+                                        or eskaera.type.id == type_azterketa
+                                        or eskaera.type.id == type_ikastarora_juteko_baimena
+                                    %}
                                         {% if eskaera.justifikanteName == null %}
                                             <li>
                                                 <a href="{{ path('eskaera_justify', { 'id': eskaera.id }) }}">

@@ -285,4 +285,20 @@ class EskaeraRepository extends EntityRepository
         $qb->orderBy('e.id', 'DESC');
         return $qb->getQuery()->getResult();
     }
+
+    public function countOrduEskaerak($userid)
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->select('count(e.id) as total')
+            ->innerJoin('e.calendar', 'c')
+            ->innerJoin('c.user', 'u')
+            ->innerJoin('e.type', 't')
+            ->andWhere('u.id = :userid')
+            ->andWhere('t.id = 5')
+            ->andWhere('e.nondik = :nondik')
+            ->setParameter('userid', $userid)
+            ->setParameter('nondik', 'Orduak');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

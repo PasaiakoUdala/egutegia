@@ -85,7 +85,7 @@ class NotificationController extends Controller
      * Lists all notification entities.
      *
      * @Route("/dotransfer", name="notification_do_transfer")
-     * @Method("GET")
+     * @Method("POST")
      * @param Request $request
      * @return Response
      */
@@ -94,11 +94,10 @@ class NotificationController extends Controller
         $origenuserid = $request->request->get('origenuserid');
         $destinuserid = $request->request->get('destinouserid');
 
-        if ((!$origenuserid) || (!$destinuserid)) {
-            return $this->render(
-                'notification/error.html.twig', [
+        if (!$origenuserid || !$destinuserid) {
+            return $this->render('notification/error.html.twig', [
                 'origenuserid' => $origenuserid,
-                'destinuserid' => $destinuserid
+                'destinuserid' => $destinuserid,
             ]);
         }
 
@@ -107,28 +106,60 @@ class NotificationController extends Controller
         $oUser = $em->getRepository(User::class)->find($origenuserid);
         $dUser = $em->getRepository(User::class)->find($destinuserid);
 
-        $oJakirazpenak = $em->getRepository('AppBundle:Notification')->getAllUnCompleted($oUser->getId());
+        if (!$oUser || !$dUser) {
+            return $this->render('notification/error.html.twig', [
+                'origenuserid' => $origenuserid,
+                'destinuserid' => $destinuserid,
+                'error' => 'Usuario origen o destino no encontrado',
+            ]);
+        }
 
-        /** @var Notification $o */
-        foreach ($oJakirazpenak as $o) {
-            $o->setUser($dUser);
-            $em->persist($o);
-            $firmadets = $o->getFirma()->getFirmadet();
-            /** @var Firmadet $firmadet */
-            foreach ($firmadets as $firmadet) {
-                if ( $firmadet->getSinatzaileakdet()->getUser() === $oUser ) {
+        $notifications = $em->getRepository(Notification::class)->getAllUnCompleted($oUser->getId());
+
+        $stats = [
+            'total' => 0,
+            'moved' => 0,
+            'skipped_no_firma' => 0,
+            'updated_firmadet' => 0,
+        ];
+        $errors = [];
+
+        foreach ($notifications as $notification) {
+            $stats['total']++;
+
+            $firma = $notification->getFirma();
+            if (!$firma) {
+                $stats['skipped_no_firma']++;
+                $errors[] = sprintf('Notification %d sin firma asociada', $notification->getId());
+                continue;
+            }
+
+            $notification->setUser($dUser);
+            $em->persist($notification);
+            $stats['moved']++;
+
+            foreach ($firma->getFirmadet() as $firmadet) {
+                $sin = $firmadet->getSinatzaileakdet();
+                if (!$sin) {
+                    continue;
+                }
+
+                if ($sin->getUser() === $oUser) {
                     $firmadet->setFirmatzailea($dUser);
                     $em->persist($firmadet);
+                    $stats['updated_firmadet']++;
                 }
             }
         }
+
         $em->flush();
 
-
-        return $this->render(
-            'notification/dotransfer.html.twig', [
-            ]
-        );
+        return $this->render('notification/dotransfer.html.twig', [
+            'errors' => $errors,
+            'stats'  => $stats,
+            'oUser'  => $oUser,
+            'dUser'  => $dUser,
+        ]);
     }
 
     /**

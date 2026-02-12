@@ -19,7 +19,7 @@ services:
     env_file: ./.env.local
     extra_hosts:
       - "host.docker.internal:host-gateway"
-      - "egutegia.test:172.29.164.206"
+      - "egutegia.test:127.0.0.1"
     build:
       context: .
       dockerfile: docker/php/Dockerfile

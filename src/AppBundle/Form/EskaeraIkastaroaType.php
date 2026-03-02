@@ -155,6 +155,17 @@ class EskaeraIkastaroaType extends AbstractType
             ->add('ikastaroaFile3', VichFileType::class, [
                 'label' => 'Ikastaroaren informazio fitxategia'
             ])
+            ->add('ikastaroaHizkuntza', ChoiceType::class, [
+                'label' => 'Ikastaroaren hizkuntza',
+                'choices' => [
+                    'Euskara' => 'Euskara',
+                    'Gaztelera' => 'Gaztelera',
+                    'Ingelera' => 'Ingelera',
+                    'Frantsesa' => 'Frantsesa',
+                    'Beste' => 'Beste',
+                ],
+                'placeholder' => '::Aukeratu::',
+            ])
         ;
     }
 

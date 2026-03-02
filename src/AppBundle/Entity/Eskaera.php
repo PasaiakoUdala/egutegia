@@ -208,6 +208,13 @@ class Eskaera
     private $ikastaroaName;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     *
+     * @var string
+     */
+    private $ikastaroaHizkuntza;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      *
      * @var integer
@@ -1589,5 +1596,29 @@ class Eskaera
     public function getNon()
     {
         return $this->non;
+    }
+
+    /**
+     * Set ikastaroaHizkuntza.
+     *
+     * @param string|null $ikastaroaHizkuntza
+     *
+     * @return Eskaera
+     */
+    public function setIkastaroaHizkuntza($ikastaroaHizkuntza = null)
+    {
+        $this->ikastaroaHizkuntza = $ikastaroaHizkuntza;
+
+        return $this;
+    }
+
+    /**
+     * Get ikastaroaHizkuntza.
+     *
+     * @return string|null
+     */
+    public function getIkastaroaHizkuntza()
+    {
+        return $this->ikastaroaHizkuntza;
     }
 }

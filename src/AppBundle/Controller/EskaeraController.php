@@ -117,6 +117,7 @@ class EskaeraController extends Controller {
         }
 
         return $this->render('default/kuadrantea.html.twig', [
+            'sailak' => [],
             'results' => $results ?? null,
             'year' => $year
         ]);

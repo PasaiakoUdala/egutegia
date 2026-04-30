@@ -605,12 +605,12 @@ class EskaeraController extends Controller {
         $jaiegunak = $em->getRepository('AppBundle:TemplateEvent')->findBy(['template' => $calendar->getTemplate()->getId()]);
 
         $template = 'eskaera/new.html.twig';
-        if ($user->getMunipada()) {
-            $template = 'eskaera/munipa.html.twig';
+        if ($q === (string) $this->getParameter('type_azterketa')) {
+            $template = 'eskaera/newAzterketa.html.twig';
         } elseif ($q === (string) $this->getParameter('type_ikastaroa')) {
             $template = 'eskaera/newIkastaro.html.twig';
-        } elseif  ($q === (string) $this->getParameter('type_azterketa')) {
-            $template = 'eskaera/newAzterketa.html.twig';
+        } elseif ($user->getMunipada()) {
+            $template = 'eskaera/munipa.html.twig';
         }
 
         $countOrduEskaerak = $em->getRepository('AppBundle:Eskaera')->countOrduEskaerak($user->getId());

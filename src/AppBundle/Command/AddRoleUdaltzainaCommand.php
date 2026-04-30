@@ -28,12 +28,15 @@ class AddRoleUdaltzainaCommand extends ContainerAwareCommand
         }
 
         $count = 0;
+        /** @var User $user */
         foreach ($users as $user) {
-            if (!in_array('ROLE_UDALTZAINA', $user->getRoles(), true)) {
+//            if (!in_array('ROLE_UDALTZAINA', $user->getRoles(), true)) {
                 $user->addRole('ROLE_UDALTZAINA');
+                $user->setMunipada(true);
+
                 $output->writeln('<info>Rola gehitu: ' . $user->getUsername() . '</info>');
                 $count++;
-            }
+//            }
         }
 
         if ($count > 0) {

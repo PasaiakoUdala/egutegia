@@ -94,7 +94,10 @@ class EskaeraIkastaroaType extends AbstractType
                 'label' => 'Markatu ordaindu behar bada, hau da, ikastaroak kostua badu.'
             ])
             ->add('ordainduta', CheckboxType::class, [
-                'label' => 'Markatu iadanik ordainketa egina badago.'
+                'label' => 'Nik (langileak) iadanik ordaindu dut.'
+            ])
+            ->add('udalakordainduta', CheckboxType::class, [
+                'label' => 'Markatu hau udalak ordaindu behar badu.'
             ])
             ->add('ordainketaFile', VichFileType::class)
             ->add(

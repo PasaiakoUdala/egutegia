@@ -304,6 +304,12 @@ class Eskaera
 
     /**
      * @var bool
+     * @ORM\Column(name="udalakordainduta", type="boolean", nullable=true, options={"default"=false})
+     */
+    private $udalakordainduta=false;
+
+    /**
+     * @var bool
      * @ORM\Column(name="sareko", type="boolean", nullable=true, options={"default"=false})
      */
     private $sareko=false;
@@ -1620,5 +1626,29 @@ class Eskaera
     public function getIkastaroaHizkuntza()
     {
         return $this->ikastaroaHizkuntza;
+    }
+
+    /**
+     * Set udalakordainduta.
+     *
+     * @param bool|null $udalakordainduta
+     *
+     * @return Eskaera
+     */
+    public function setUdalakordainduta($udalakordainduta = null)
+    {
+        $this->udalakordainduta = $udalakordainduta;
+
+        return $this;
+    }
+
+    /**
+     * Get udalakordainduta.
+     *
+     * @return bool|null
+     */
+    public function getUdalakordainduta()
+    {
+        return $this->udalakordainduta;
     }
 }

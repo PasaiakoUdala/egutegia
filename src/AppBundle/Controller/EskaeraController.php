@@ -35,6 +35,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use GuzzleHttp\Client;
 use AppBundle\Form\EskaeraType;
+use Swift_Message;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -598,6 +599,32 @@ class EskaeraController extends Controller {
             }
             $em->persist($eskaera);
             $em->flush();
+
+            if ($q === (string) $this->getParameter('type_ikastaroa')) {
+                $hasiDate = $eskaera->getHasi() ? $eskaera->getHasi()->format('Y-m-d') : '-';
+                $body = sprintf(
+                    "<p><strong>Ikastaro berria erregistratu da:</strong></p>"
+                    . "<ul>"
+                    . "<li><strong>Izena:</strong> %s</li>"
+                    . "<li><strong>Erabiltzailea:</strong> %s</li>"
+                    . "<li><strong>Hasiera data:</strong> %s</li>"
+                    . "<li><strong>Kostua:</strong> %s</li>"
+                    . "</ul>",
+                    htmlspecialchars((string) $eskaera->getName()),
+                    htmlspecialchars((string) $eskaera->getUser()),
+                    htmlspecialchars($hasiDate),
+                    htmlspecialchars((string) $eskaera->getKostua())
+                );
+                $message = (new Swift_Message('Ikastaro berria'))
+                    ->setFrom($this->getParameter('mailer_bidaltzailea'))
+                    ->setTo('maika@pasaia.net')
+                    ->setBody($body, 'text/html');
+                $ordainketaPath = $this->get('vich_uploader.storage')->resolvePath($eskaera, 'ordainketaFile');
+                if ($ordainketaPath && file_exists($ordainketaPath)) {
+                    $message->attach(\Swift_Attachment::fromPath($ordainketaPath)->setFilename($eskaera->getOrdainketaName()));
+                }
+                $this->get('mailer')->send($message);
+            }
 
             return $this->redirectToRoute('eskaera_gauzatua', ['id' => $eskaera->getId()]);
         }

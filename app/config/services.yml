@@ -78,6 +78,7 @@ services:
         arguments: ['AppBundle:Eskaera']
         calls:
             - ["setLizentziaType", ["%type_lizentzia%"]]
+            - ["setIkastaroaType", ["%type_ikastaroa%"]]
 
     app.ldap.service:
         public: true

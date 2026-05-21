@@ -30,6 +30,8 @@
                    href="{{ path('admin_eskaera_list', { 'q': 'unsigned', 'history':history, 'bertanbehera': bertanbehera}) }}">{{ 'Gauzatu gabeak' | trans }}</a>
                 <a class="btn {% if app.request.get('q') == 'unadded' %}    btn-info {% else %} btn-default {% endif %}"
                    href="{{ path('admin_eskaera_list', { 'q': 'unadded', 'history':history, 'bertanbehera': bertanbehera}) }}">{{ 'Egutegian sartu gabe' | trans }}</a>
+                <a class="btn {% if app.request.get('q') == 'ika' %}    btn-info {% else %} btn-default {% endif %}"
+                   href="{{ path('admin_eskaera_list', { 'q': 'ika', 'history':history, 'bertanbehera': bertanbehera}) }}">{{ 'IKA' | trans }}</a>
                 <a class="btn {% if app.request.get('q') == 'conflict' %}    btn-info {% else %} btn-default {% endif %}"
                    href="{{ path('admin_eskaera_list', { 'q': 'conflict', 'history':history, 'bertanbehera': bertanbehera}) }}">{{ 'Bateraezinak' | trans }}</a>
 

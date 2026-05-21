@@ -17,10 +17,19 @@ class EskaeraRepository extends EntityRepository
      * @var
      */
     protected $lizentziaType;
+    /**
+     * @var
+     */
+    protected $ikastaroaType;
 
     public function setLizentziaType($lizentziaType): void
     {
         $this->lizentziaType = $lizentziaType;
+    }
+
+    public function setIkastaroaType($ikastaroaType)
+    {
+        $this->ikastaroaType = $ikastaroaType;
     }
 
     public function listAll($bertanbehera)
@@ -73,7 +82,12 @@ class EskaeraRepository extends EntityRepository
                                 ->from('AppBundle:Eskaera', 'e')
                                 ->innerJoin('e.type', 't')
                                 ->leftJoin('e.sinatzaileak', 's')
-                                ->where('e.egutegian=0')->andWhere('e.amaitua=1')->andWhere('e.emaitza=1');
+                                ->where('e.egutegian=0')
+                                ->andWhere('e.amaitua=1')
+                                ->andWhere('e.emaitza=1')
+                                ->andWhere('t.id != :type_ikastaro_id')
+                                ->setParameter('type_ikastaro_id', $this->ikastaroaType)
+                ;
                 break;
             case 'not-approved':
                 $qb = $this->_em->createQueryBuilder()
@@ -90,6 +104,13 @@ class EskaeraRepository extends EntityRepository
                                 ->innerJoin('e.type', 't')
                                 ->leftJoin('e.sinatzaileak', 's')
                                 ->where('e.egutegian=0')->andWhere('e.amaitua=1')->andWhere('e.bideratua=0')->andWhere('e.konfliktoa=1');
+                break;
+            case 'ika':
+                $qb = $this->_em->createQueryBuilder()
+                                ->select('e,t')
+                                ->from('AppBundle:Eskaera', 'e')
+                                ->innerJoin('e.type', 't')
+                                ->where('t.id = :type_ikastaro_id')->setParameter('type_ikastaro_id', $this->ikastaroaType);
                 break;
             case 'justify':
                 if (null === $lm) {

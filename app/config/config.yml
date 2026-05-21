@@ -277,7 +277,8 @@ fos_ck_editor:
             toolbar:
                 - { name: "styles", items: ['Bold', 'Italic','Underline', 'BulletedList','NumberedList','Outdent','Indent', 'Link', 'PasteText', 'TextColor', 'BGColor'] }
             jquery: true
-            forcePasteAsPlainText: true;
+            forcePasteAsPlainText: true
+            versionCheck: false
 
 mobile_detect:
 

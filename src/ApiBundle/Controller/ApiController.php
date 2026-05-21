@@ -759,6 +759,37 @@ class ApiController extends FOSRestController
             $eskaera->setEmaitza(true);
             $em->persist($eskaera);
 
+            // Eskaera onartua izan bada Maikari email bat bidaltzen zaio ordainketaren datuekin
+            $hasiDate = $eskaera->getHasi() ? $eskaera->getHasi()->format('Y-m-d') : '-';
+            $body = sprintf(
+                "<p><strong>Ikastaro berria erregistratu da:</strong></p>"
+                . "<ul>"
+                . "<li><strong>Izena:</strong> %s</li>"
+                . "<li><strong>Erabiltzailea:</strong> %s</li>"
+                . "<li><strong>Hasiera data:</strong> %s</li>"
+                . "<li><strong>Kostua:</strong> %s €</li>"
+                . "<li><strong>Langileak ordaindu du:</strong> %s €</li>"
+                . "<li><strong>Udalak ordaindu behar du:</strong> %s €</li>"
+                . "</ul>",
+                htmlspecialchars((string) $eskaera->getName()),
+                htmlspecialchars((string) $eskaera->getUser()),
+                htmlspecialchars($hasiDate),
+                htmlspecialchars((string) $eskaera->getKostua()),
+                htmlspecialchars((string) $eskaera->getOrdainduta()),
+                htmlspecialchars((string) $eskaera->getUdalakordainduta())
+            );
+            $message = (new Swift_Message('Ikastaro berria'))
+                ->setFrom($this->getParameter('mailer_bidaltzailea'))
+                ->setTo('maika@pasaia.net')
+                ->setBody($body, 'text/html');
+            $ordainketaPath = $this->get('vich_uploader.storage')->resolvePath($eskaera, 'ordainketaFile');
+            if ($ordainketaPath && file_exists($ordainketaPath)) {
+                $message->attach(\Swift_Attachment::fromPath($ordainketaPath)->setFilename($eskaera->getOrdainketaName()));
+            }
+            $this->get('mailer')->send($message);
+
+
+
             /**
              * Onartua izan den emaila kentzeko eskatzen da 2022/02/04
              */

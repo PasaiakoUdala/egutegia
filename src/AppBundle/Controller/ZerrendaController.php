@@ -127,6 +127,8 @@ class ZerrendaController extends Controller
      */
     public function konpentsatuakXehetuaAction(Request $request): Response
     {
+        $this->denyAccessUnlessGranted(['ROLE_BIDERATZAILEA', 'ROLE_SUPER_ADMIN'], null, 'Egin login');
+
         //        FORM POST PARAMETERS
         $hasi      = $request->request->get('data_hasi');
         $fin       = $request->request->get('data_amaitu');

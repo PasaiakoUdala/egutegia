@@ -17,4 +17,48 @@ namespace AppBundle\Repository;
  */
 class HourRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Langile bakoitzaren ordu konpentsatuak xehetuta (eguna, orduak, minutuak, faktorea).
+     */
+    public function findKonpentsatuakXehetua($hasi = null, $fin = null, $urtea = null, $saila = null, $lanpostua = null)
+    {
+        $qb = $this->createQueryBuilder('h');
+        $qb->select(
+            'h.date as fetxa',
+            'h.hours as orduak',
+            'h.minutes as minutuak',
+            'h.factor as faktorea',
+            'h.total as guztira',
+            'c.id as calendarid',
+            'c.year',
+            'u.id',
+            'u.username',
+            'u.department',
+            'u.lanpostua'
+        );
+        $qb->innerJoin('h.calendar', 'c');
+        $qb->innerJoin('c.user', 'u');
+
+        if ($urtea) {
+            $qb->andWhere('c.year = :urtea')->setParameter('urtea', $urtea);
+        }
+        if ($hasi) {
+            $qb->andWhere('h.date >= :hasi')->setParameter('hasi', $hasi);
+        }
+        if ($fin) {
+            $qb->andWhere('h.date <= :fin')->setParameter('fin', $fin);
+        }
+        if ($saila) {
+            $qb->andWhere('u.department = :saila')->setParameter('saila', $saila);
+        }
+        if ($lanpostua) {
+            $qb->andWhere('u.lanpostua = :lanpostua')->setParameter('lanpostua', $lanpostua);
+        }
+
+        $qb->orderBy('u.department', 'ASC');
+        $qb->addOrderBy('u.username', 'ASC');
+        $qb->addOrderBy('h.date', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }

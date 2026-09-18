@@ -1,0 +1,161 @@
+{% extends 'base.html.twig' %}
+
+{% block content_div_start %}{% endblock %}
+{% block content_div_end %}{% endblock %}
+{% block headline %}{{ 'Zerrendak' | trans }} {% endblock %}
+
+{% block content_row %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="well">
+                    <div class="row">
+                        <form action="{{ path('app_zerrenda_konpentsatuak_xehetua') }}" class="form-inline" method="post">
+                            <div class="row">
+
+                                <div class="col-md-3">
+                                    <label for="cmbSaila">{{ "Saila" |trans }}</label><br>
+                                    <select name="saila" id="cmbSaila" class="form-control">
+                                        <option value="0">Aukeratu bat...</option>
+                                        {% for s in sailak %}
+                                            <option value="{{ s.department }}">{{ s.department }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="cmbLanpostu">{{ "Lanpostua" | trans }}</label><br>
+                                    <select name="lanpostua" id="cmbLanpostu" class="form-control">
+                                        <option value="0">Aukeratu bat...</option>
+                                        {% for l in lanpostuak %}
+                                            <option value="{{ l.lanpostua }}">{{ l.lanpostua|length > 50 ? l.lanpostua|slice(0, 50) ~ '...' : l.lanpostua  }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">&nbsp;</div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label for="cmbUrtea">{{ "Urtea" | trans }}</label><br>
+                                    <select name="urtea" id="cmbUrtea" class="form-control">
+                                        <option value="{{ "now"|date('Y') }} ">{{ "now"|date('Y') }} </option>
+                                        {% for u in urteak %}
+                                            <option value="{{ u.year }}">{{ u.year }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3" id="divDateRange">
+                                    <label>{{ "Datak" | trans }}</label>
+                                    <div class="input-daterange input-group" id="filterDatepicker">
+                                        <input type="text" class="input-sm form-control" name="data_hasi" />
+                                        <span class="input-group-addon">-</span>
+                                        <input type="text" class="input-sm form-control" name="data_amaitu" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-search fa-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="toolbar" class="btn-group">
+                {{ testua }}
+            </div>
+            <table data-toggle="table"
+                   data-classes="table table-hover table-condensed"
+                   data-striped="true"
+
+                   data-pagination="true"
+                   data-page-size="Guztiak"
+                   data-search="true" data-page-list="[25, 50, 100, Guztiak]"
+                    {#data-height="300"#}
+
+                   data-sort-name="username"
+                   data-sort-order="asc"
+
+                   data-icon-size="sm"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+
+                   data-toolbar="#toolbar"
+                   data-show-export="true"
+                   data-export-types="['csv','excel']"
+                   data-export-options='{
+                 "fileName": "export",
+                 "worksheetName": "egutegia"
+               }'>
+
+                <thead>
+                <tr>
+                    <th data-halign="center" data-align="left" data-field="username" data-sortable="true">{{ 'Langilea' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="department" data-sortable="true">{{ 'Saila' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="lanpostua" data-sortable="true">{{ 'Lanpostua' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="fetxa" data-sortable="true">{{ 'Eguna' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="orduak" data-sortable="true">{{ 'Orduak' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="minutuak" data-sortable="true">{{ 'Minutuak' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="faktorea" data-sortable="true">{{ 'Faktorea' | trans }}</th>
+                    <th data-halign="center" data-align="right" data-field="guztira" data-sortable="true">{{ 'Orduak konpentsatzera' | trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for k in konpentsatuak %}
+                    <tr>
+                        <td><a target="_blank" href="{{ path('admin_calendar_edit', { 'id': k.calendarid }) }}">{{ k.username }}</a></td>
+                        <td>{{ k.department }}</td>
+                        <td>{{ k.lanpostua }}</td>
+                        <td>{{ k.fetxa | date('Y-m-d') }}</td>
+                        <td>{{ k.orduak }}</td>
+                        <td>{{ k.minutuak }}</td>
+                        <td>{{ k.faktorea }}</td>
+                        <td>{{ k.guztira }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block foot_script %}
+
+    {{ parent() }}
+
+    <script >
+        $( document ).ready(function() {
+            $('.input-daterange input').each(function() {
+                $(this).datepicker({
+                    format: "yyyy-mm-dd",
+                    language: "eu",
+                    autoclose: true
+                });
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

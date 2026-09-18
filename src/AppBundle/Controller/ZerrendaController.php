@@ -118,4 +118,54 @@ class ZerrendaController extends Controller
             ));
         }
     }
+
+    /**
+     * @Route("/konpentsatuak-xehetua", name="app_zerrenda_konpentsatuak_xehetua")
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function konpentsatuakXehetuaAction(Request $request): Response
+    {
+        //        FORM POST PARAMETERS
+        $hasi      = $request->request->get('data_hasi');
+        $fin       = $request->request->get('data_amaitu');
+        $urtea     = $request->request->get('urtea');
+        $saila     = $request->request->get('saila');
+        $lanpostua = $request->request->get('lanpostua');
+
+        if (!$urtea) {
+            $urtea = date('Y');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $konpentsatuak = $em->getRepository('AppBundle:Hour')->findKonpentsatuakXehetua($hasi, $fin, $urtea, $saila, $lanpostua);
+
+        $sailak     = $em->getRepository('AppBundle:User')->findSailGuztiak();
+        $urteak     = $em->getRepository('AppBundle:Calendar')->getEgutegiUrteak();
+        $lanpostuak = $em->getRepository('AppBundle:User')->findLanpostuGuztiak();
+
+        $testua = $urtea.'-ko datuak erakusten ';
+        if ($hasi) {
+            $testua .= $hasi . '-tik hasita ';
+        }
+        if ($fin) {
+            $testua .= $fin . '-erarte. ';
+        }
+        if ($saila) {
+            $testua .= ' Saila:' . $saila;
+        }
+        if ($lanpostua) {
+            $testua .= ' Lanpostua:' . $lanpostua;
+        }
+
+        return $this->render('zerrenda/zerrenda_konpentsatuak_xehe.html.twig', array(
+            'konpentsatuak' => $konpentsatuak,
+            'sailak'        => $sailak,
+            'lanpostuak'    => $lanpostuak,
+            'urteak'        => $urteak,
+            'testua'        => $testua,
+        ));
+    }
 }
